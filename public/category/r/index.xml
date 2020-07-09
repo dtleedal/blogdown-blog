@@ -37,7 +37,7 @@
 &lt;li&gt;the road’s approximate bearing.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;It’s a long story why this was needed but getting there involved some useful discoveries so I’m repeating the crux of it here. Interestingly, shortly after writing the scripts, I came across &lt;a href=&#34;https://geoffboeing.com/2018/07/comparing-city-street-orientations/&#34;&gt;Geoff Boeing’s beautiful post&lt;/a&gt; visualising similar information for 25 cities.&lt;/p&gt;
-&lt;p&gt;The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it’s nearest highway ‘way’ feature. Then get the coordinates of the beginning and endpoint of this way feature and use the pair of points to define a bearing. Makes sense? OK, here we go:&lt;/p&gt;
+&lt;p&gt;The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it’s nearest highway ‘way’ feature. Then get the coordinates of the beginning and end of the feature and use the pair of points to define a bearing. Makes sense? OK, here we go:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-the-packages&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get the packages&lt;/h3&gt;
@@ -55,17 +55,17 @@ library(ggmap)
 &lt;/div&gt;
 &lt;div id=&#34;organise-the-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Organise the data&lt;/h3&gt;
-&lt;p&gt;I’m going to use 4 points dotted around the Northern Quarter in Manchester (UK). Let’s put them in a data.frame:&lt;/p&gt;
+&lt;p&gt;To keep things manageable I’m going to use 4 points dotted around the Northern Quarter in Manchester (UK). I’ll put them in a data.frame:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df &amp;lt;- data.frame(ID = 1:4,
  Longitude = c(-2.232086, -2.235675, -2.233628, -2.232453),
  Latitude = c(53.484510, 53.484318, 53.484103, 53.481176), stringsAsFactors = FALSE)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then let’s convert to an sf (spatial features) points object. I’ve found myself using this next command over and over.&lt;/p&gt;
+&lt;p&gt;Then I’ll convert to an &lt;code&gt;sf&lt;/code&gt; (spatial features) multi point object. I use this command over and over.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df.sf &amp;lt;- st_as_sf(df, coords = c(&amp;quot;Longitude&amp;quot;, &amp;quot;Latitude&amp;quot;), crs=4326)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The crs argument is telling st_as_sf that these coordinates are using the WGS84 coordinate datum which has a EPSG code of 4326. This is needed if we want to ‘project’ the points out of latitude/longitude format and into distance north and west from a given reference point. If you’re not familiar with this concept &lt;a href=&#34;https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf&#34;&gt;here’s a good pdf tutorial&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The crs argument is telling st_as_sf that these coordinates are WGS84 by referencing the appropriate EPSG code 4326 (it’s a good idea to memorise that number!). This is needed later when I project the points out of latitude/longitude format and into distance-from-bottom-left format. If you’re not familiar with this concept &lt;a href=&#34;https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf&#34;&gt;here’s a good pdf tutorial&lt;/a&gt;.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;visualise&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Visualise&lt;/h3&gt;
-&lt;p&gt;At this point it’s always good to take a look at what we’ve got. I’m going to use leaflet as it works well with Blogdown.&lt;/p&gt;
+&lt;p&gt;At this point I’ll take a look at the 4 points. I’m using leaflet which works well with Blogdown.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;m &amp;lt;- leaflet(df) %&amp;gt;% addTiles() %&amp;gt;% addCircleMarkers(
   lng = ~Longitude,
   lat = ~Latitude,
@@ -77,18 +77,18 @@ m&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;leaflet html-widget&#34;&gt;&lt;/div&gt;
 &lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;calls&#34;:[{&#34;method&#34;:&#34;addTiles&#34;,&#34;args&#34;:[&#34;//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#34;,null,null,{&#34;minZoom&#34;:0,&#34;maxZoom&#34;:18,&#34;tileSize&#34;:256,&#34;subdomains&#34;:&#34;abc&#34;,&#34;errorTileUrl&#34;:&#34;&#34;,&#34;tms&#34;:false,&#34;noWrap&#34;:false,&#34;zoomOffset&#34;:0,&#34;zoomReverse&#34;:false,&#34;opacity&#34;:1,&#34;zIndex&#34;:1,&#34;detectRetina&#34;:false,&#34;attribution&#34;:&#34;&amp;copy; &lt;a href=\&#34;http://openstreetmap.org\&#34;&gt;OpenStreetMap&lt;\/a&gt; contributors, &lt;a href=\&#34;http://creativecommons.org/licenses/by-sa/2.0/\&#34;&gt;CC-BY-SA&lt;\/a&gt;&#34;}]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[53.48451,53.484318,53.484103,53.481176],[-2.232086,-2.235675,-2.233628,-2.232453],8,null,null,{&#34;interactive&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:false,&#34;color&#34;:&#34;green&#34;,&#34;weight&#34;:5,&#34;opacity&#34;:0.5,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;green&#34;,&#34;fillOpacity&#34;:0.9},null,null,null,null,null,{&#34;interactive&#34;:false,&#34;permanent&#34;:false,&#34;direction&#34;:&#34;auto&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,0],&#34;textsize&#34;:&#34;10px&#34;,&#34;textOnly&#34;:false,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true},null]}],&#34;limits&#34;:{&#34;lat&#34;:[53.481176,53.48451],&#34;lng&#34;:[-2.235675,-2.232086]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
 &lt;/div&gt;
-&lt;div id=&#34;get-information-from-osm&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Get information from OSM&lt;/h3&gt;
+&lt;div id=&#34;get-information-from-openstreetmap&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get information from OpenStreetMap&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;opq&lt;/code&gt; query from the &lt;code&gt;osmdata&lt;/code&gt; package forms an OSM overpass filter and sends it to OSM’s servers. The result is an &lt;code&gt;osmdata&lt;/code&gt; object containing various items. The item I’m interested in is the &lt;code&gt;osm_lines&lt;/code&gt; which is a set of &lt;code&gt;sf&lt;/code&gt; linestrings. These are the way objects representing highway segments. The query has returned 44 highway segments that intersected the bounded box of our 4 points (at the time of posting).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;this.bbox &amp;lt;- st_bbox(df.sf)
 osm.road.types = c(&amp;quot;motorway&amp;quot;, &amp;quot;motorway_link&amp;quot;, &amp;quot;trunk&amp;quot;, &amp;quot;trunk_link&amp;quot;, &amp;quot;primary&amp;quot;, &amp;quot;primary_link&amp;quot;, &amp;quot;secondary&amp;quot;, 
                    &amp;quot;secondary_link&amp;quot;, &amp;quot;tertiary&amp;quot;, &amp;quot;unclassified&amp;quot;, &amp;quot;residential&amp;quot;)
-out &amp;lt;- osmdata::opq (this.bbox) %&amp;gt;%
+out &amp;lt;- opq (this.bbox) %&amp;gt;%
             #add_osm_feature (key = &amp;quot;highway&amp;quot;, value = c(osm.road.types, paste0(osm.road.types, &amp;quot;_link&amp;quot;))) %&amp;gt;%
             osmdata::add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
             osmdata::osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
-## Request failed [504]. Retrying in 1 seconds...
-## Rate limit: 0
+## Rate limit: 2
 ## Query complete!
 ## converting OSM data to sf format
 out
@@ -96,53 +96,53 @@ out
 ##                  $bbox : 53.481176,-2.235675,53.48451,-2.232086
 ##         $overpass_call : The call submitted to the overpass API
 ##                  $meta : metadata including timestamp and version numbers
-##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 205 points
-##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 45 linestrings
+##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 199 points
+##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 44 linestrings
 ##          $osm_polygons : &amp;#39;sf&amp;#39; Simple Features Collection with 0 polygons
 ##        $osm_multilines : NULL
 ##     $osm_multipolygons : NULL
 road.lines &amp;lt;- out$osm_lines
 nrow(road.lines)
-## [1] 45&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;opq&lt;/code&gt; query returns an osmdata object with various items. The section we’re interested in is the &lt;code&gt;osm_lines&lt;/code&gt;. These are the way objects representing road segments. The query has returned 44 road segments that intersected the bounded box of our 4 points (at the time of posting).&lt;/p&gt;
+## [1] 44&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-candidate-closest-roads-to-points&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get candidate closest roads to points&lt;/h3&gt;
-&lt;p&gt;We’re just testing here with 4 points. But you may want to do something similar with thousands. So it’s useful to be able to identify candidate roads out of all the road segments returned by &lt;code&gt;opq&lt;/code&gt; that are within a specified distance of the points. To do this we project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.&lt;/p&gt;
+&lt;p&gt;Soon I’ll find the closest highway segment to each point, but if I had thousands of points and highways it would be wise to only check a subset of highways by associating nearby highways to each point. I’ll do that next. First I’ll project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df.sf.tf &amp;lt;- st_transform(df.sf, 27700) # US National Atlas Equal Area projection
 road.lines.tf &amp;lt;- st_transform(road.lines, 27700)
 buffer.size &amp;lt;- 50
 df.sf.tf.bf &amp;lt;- st_buffer(df.sf.tf, buffer.size)
 intersected.items &amp;lt;- st_intersects(df.sf.tf.bf, road.lines.tf, sparse = F)
 dim(intersected.items)
-## [1]  4 45&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The dimensions show we have 4 rows, one for each of our 4 points, and 44 columns, one for each OSM road segment within our bounding box. The matrix contains TRUE/FALSE values where TRUE indicates a point of intersection.&lt;/p&gt;
+## [1]  4 44&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The dimensions show I have 4 rows, one for each of the 4 points, and 44 columns, one for each OSM road segment within the bounding box. The matrix contains TRUE/FALSE values where TRUE indicates a point of intersection.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-the-closest-road-segment&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get the closest road segment&lt;/h3&gt;
-&lt;p&gt;So now, using the location of TRUE values in each row or the &lt;code&gt;intersected.items&lt;/code&gt; matrix, we can subset the &lt;code&gt;road.lines&lt;/code&gt; so that we’re only checking which road is the closest to the point from within a group that we know are at most 50m away.
-The &lt;code&gt;st_coordinates&lt;/code&gt; function is useful to return just the coordinate information from an sf object, and the dist2Line function calculates the shortest distance between a point and a polyline (There are some good details about doing this type of calculation at the &lt;a href=&#34;https://www.movable-type.co.uk/scripts/latlong.html&#34;&gt;Movable Type website&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;So now, using the location of TRUE values in each row or the &lt;code&gt;intersected.items&lt;/code&gt; matrix, I can subset the &lt;code&gt;road.lines&lt;/code&gt; so that the nearest highway search is constrained to a much smaller number of highway segments (ones within 50m).
+The &lt;code&gt;st_coordinates&lt;/code&gt; function is useful to return just the coordinate information from an &lt;code&gt;sf&lt;/code&gt; object, and the &lt;code&gt;dist2Line&lt;/code&gt; function from the &lt;code&gt;geosphere&lt;/code&gt; package calculates the shortest distance between a point and a polyline (There are some good details about doing this type of calculation at the &lt;a href=&#34;https://www.movable-type.co.uk/scripts/latlong.html&#34;&gt;Movable Type website&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;number.of.point &amp;lt;- nrow(intersected.items)
 distances.vect &amp;lt;- matrix(NA_real_, nrow = nrow(df.sf.tf), ncol = 4)
 colnames(distances.vect) &amp;lt;- c(&amp;quot;distance&amp;quot;, &amp;quot;lon&amp;quot;, &amp;quot;lat&amp;quot;, &amp;quot;ID&amp;quot;)
 for (i in seq_len(number.of.point)) {
   # Out of all 44 road segments, get the index of the ones that are within 50m of point i. 
   original.road.idx &amp;lt;- which(intersected.items[i, ] == TRUE)
-  distances.vect.temp  &amp;lt;- geosphere::dist2Line(p = st_coordinates(df.sf[i, ]), line = as_Spatial(road.lines[original.road.idx, ]))
+  distances.vect.temp  &amp;lt;- dist2Line(p = st_coordinates(df.sf[i, ]), line = as_Spatial(road.lines[original.road.idx, ]))
   distances.vect.temp[1, &amp;quot;ID&amp;quot;] &amp;lt;- original.road.idx[distances.vect.temp[1, &amp;quot;ID&amp;quot;]]
   distances.vect[i, ] &amp;lt;- distances.vect.temp
 }
 distances.vect
 ##      distance       lon      lat ID
-## [1,] 5.061288 -2.232137 53.48448 44
+## [1,] 5.061288 -2.232137 53.48448 43
 ## [2,] 3.500525 -2.235712 53.48430 10
 ## [3,] 6.111912 -2.233558 53.48407  5
 ## [4,] 5.541079 -2.232491 53.48122 19&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;So now, not only have we found the nearest road segments, we’ve also got the coordinates of the nearest point on the road segments to our original points stored in the lon/lat columns &lt;code&gt;distances.vec&lt;/code&gt;. We’ve &lt;em&gt;snapped&lt;/em&gt; our points to the roads which is a bonus.&lt;/p&gt;
+&lt;p&gt;So now I’ve got the nearest road segments &lt;em&gt;and&lt;/em&gt; the coordinates of the nearest point on the road segments to the original points. These are stored in the lon/lat columns of &lt;code&gt;distances.vec&lt;/code&gt;. So the original vague points are now &lt;em&gt;snapped&lt;/em&gt; to actual highway locations which is a bonus.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-the-road-section-bearings&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get the road section bearings&lt;/h3&gt;
-&lt;p&gt;Now we extract the 4 closest road segments from the full set of 44 and add the useful features we’ve created so far. The challenge here was to get the coordinates of the points making up our closest road segments, and extract just the first and last coordinate pairs of each. I did this using data.table. When retrieving the coordinates via &lt;code&gt;st_coordinates&lt;/code&gt; a third column labelled &lt;code&gt;L1&lt;/code&gt; is created with a group ID of each polyline object. This can be used as a grouping variable in data.table. The .SD[…] syntax holds the sub-data.table once the full data.table has been split by the grouping variable, finally 1 and .N are the first row and last row of each sub-data.table. There are going to be many other ways to do this but if this process was applied to thousands of points then the speed of data.table will pay off. Once we have the beginning and end coordinate pairs it’s straightforward to call the &lt;code&gt;bearing&lt;/code&gt; function from the &lt;code&gt;geosphere&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;Next I’ll extract the chosen 4 road segments from the full set of 44 and add the useful features I’ve just created so far. Getting the coordinates of the first and last points is a bit fiddly. I’m using &lt;code&gt;data.table&lt;/code&gt; for this. When retrieving the coordinates via &lt;code&gt;st_coordinates&lt;/code&gt; a third column labelled &lt;code&gt;L1&lt;/code&gt; is created with a group ID of each polyline object. This can be used as a grouping variable in data.table. The &lt;code&gt;.SD[...]&lt;/code&gt; syntax holds the sub-data.table once the full data.table has been split by the grouping variable, finally 1 and &lt;code&gt;.N&lt;/code&gt; are the first row and last row of each sub-data.table. There’s other ways to do this but the speed of &lt;code&gt;data.table&lt;/code&gt; would pay off if I had thousands of points.
+Once we have the beginning and end coordinate pairs it’s straightforward to call the &lt;code&gt;bearing&lt;/code&gt; function from the &lt;code&gt;geosphere&lt;/code&gt; package.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;out &amp;lt;- road.lines[as.integer(distances.vect[, &amp;quot;ID&amp;quot;]), ]
 out$dist.to.nearest &amp;lt;- distances.vect[, &amp;quot;distance&amp;quot;]
 out$snap.lat &amp;lt;- distances.vect[, &amp;quot;lat&amp;quot;]
@@ -157,15 +157,15 @@ out$bearing
 &lt;/div&gt;
 &lt;div id=&#34;plot-with-estimated-bearing&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Plot with estimated bearing&lt;/h3&gt;
-&lt;p&gt;In order to visualise the estimated road bearing for our 4 points we need to add arrow endpoints information. We can do this with a little trigonometry.&lt;/p&gt;
+&lt;p&gt;In order to visualise the estimated road bearing for my 4 points I need to add arrow endpoints information. Some trigonometry wil accomplish this (the 0.00025 value is determines the length of the direction arrow):&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;out$delta.x &amp;lt;- sin((pi*out$bearing) / 180) * 0.00025
 out$delta.y &amp;lt;- cos((pi*out$bearing) / 180) * 0.00025&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now we have everything we need to plot the snapped locations and show an arrow with our road segment bearing.&lt;/p&gt;
+&lt;p&gt;Now I can plot the snapped locations and show an arrow indicating the highway bearing over a basemap for visual validation.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
-&lt;p&gt;The results are pretty good, definitely good enough to classify a point into one of the 8 compass bearing directions: N, NE, E… etc. In this post we’ve explored working with &lt;code&gt;sf&lt;/code&gt; spatial points, we’ve generated and run an OSM overpass filter and retrieved matching results, and we’ve used &lt;code&gt;Leaflet&lt;/code&gt; and &lt;code&gt;ggmap&lt;/code&gt; to visualise results. I hope you’ve found this useful.&lt;/p&gt;
+&lt;p&gt;The results are pretty good, definitely good enough to classify a point into one of the 8 compass bearing directions: N, NE, E… etc. In this post I’ve explored working with &lt;code&gt;sf&lt;/code&gt; spatial points, generated and run an OSM overpass filter, and done some useful visualisation with &lt;code&gt;Leaflet&lt;/code&gt; and &lt;code&gt;ggmap&lt;/code&gt;. I’m sure there are things I could tidy and optimise here but I hope you found this a little useful.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
