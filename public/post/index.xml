@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts | Academic</title>
+    <title>Posts | Dave&#39;s data science</title>
     <link>/post/</link>
       <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 12 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 06 Jul 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Posts</title>
@@ -13,497 +13,159 @@
     </image>
     
     <item>
-      <title>Writing technical content in Academic</title>
-      <link>/post/writing-technical-content/</link>
-      <pubDate>Fri, 12 Jul 2019 00:00:00 +0000</pubDate>
-      <guid>/post/writing-technical-content/</guid>
-      <description>&lt;p&gt;Academic is designed to give technical content creators a seamless experience. You can focus on the content and Academic handles the rest.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Highlight your code snippets, take notes on math classes, and draw diagrams from textual representation.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;On this page, you&amp;rsquo;ll find some examples of the types of technical content that can be rendered with Academic.&lt;/p&gt;
-&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
-&lt;h3 id=&#34;code&#34;&gt;Code&lt;/h3&gt;
-&lt;p&gt;Academic supports a Markdown extension for highlighting code syntax. You can enable this feature by toggling the &lt;code&gt;highlight&lt;/code&gt; option in your &lt;code&gt;config/_default/params.toml&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```python
-import pandas as pd
-data = pd.read_csv(&amp;quot;data.csv&amp;quot;)
-data.head()
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import pandas as pd
-data = pd.read_csv(&amp;quot;data.csv&amp;quot;)
-data.head()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&#34;math&#34;&gt;Math&lt;/h3&gt;
-&lt;p&gt;Academic supports a Markdown extension for $\LaTeX$ math. You can enable this feature by toggling the &lt;code&gt;math&lt;/code&gt; option in your &lt;code&gt;config/_default/params.toml&lt;/code&gt; file.&lt;/p&gt;
-&lt;p&gt;To render &lt;em&gt;inline&lt;/em&gt; or &lt;em&gt;block&lt;/em&gt; math, wrap your LaTeX math with &lt;code&gt;$...$&lt;/code&gt; or &lt;code&gt;$$...$$&lt;/code&gt;, respectively.&lt;/p&gt;
-&lt;p&gt;Example &lt;strong&gt;math block&lt;/strong&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-tex&#34;&gt;$$\gamma_{n} = \frac{ 
-\left | \left (\mathbf x_{n} - \mathbf x_{n-1} \right )^T 
-\left [\nabla F (\mathbf x_{n}) - \nabla F (\mathbf x_{n-1}) \right ] \right |}
-{\left \|\nabla F(\mathbf{x}_{n}) - \nabla F(\mathbf{x}_{n-1}) \right \|^2}$$
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;p&gt;$$\gamma_{n} = \frac{ \left | \left (\mathbf x_{n} - \mathbf x_{n-1} \right )^T \left [\nabla F (\mathbf x_{n}) - \nabla F (\mathbf x_{n-1}) \right ] \right |}{\left |\nabla F(\mathbf{x}_{n}) - \nabla F(\mathbf{x}_{n-1}) \right |^2}$$&lt;/p&gt;
-&lt;p&gt;Example &lt;strong&gt;inline math&lt;/strong&gt; &lt;code&gt;$\nabla F(\mathbf{x}_{n})$&lt;/code&gt; renders as $\nabla F(\mathbf{x}_{n})$.&lt;/p&gt;
-&lt;p&gt;Example &lt;strong&gt;multi-line math&lt;/strong&gt; using the &lt;code&gt;\\\\&lt;/code&gt; math linebreak:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-tex&#34;&gt;$$f(k;p_0^*) = \begin{cases} p_0^* &amp;amp; \text{if }k=1, \\\\
-1-p_0^* &amp;amp; \text {if }k=0.\end{cases}$$
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;p&gt;$$f(k;p_0^*) = \begin{cases} p_0^* &amp;amp; \text{if }k=1, \\&lt;br&gt;
-1-p_0^* &amp;amp; \text {if }k=0.\end{cases}$$&lt;/p&gt;
-&lt;h3 id=&#34;diagrams&#34;&gt;Diagrams&lt;/h3&gt;
-&lt;p&gt;Academic supports a Markdown extension for diagrams. You can enable this feature by toggling the &lt;code&gt;diagram&lt;/code&gt; option in your &lt;code&gt;config/_default/params.toml&lt;/code&gt; file or by adding &lt;code&gt;diagram: true&lt;/code&gt; to your page front matter.&lt;/p&gt;
-&lt;p&gt;An example &lt;strong&gt;flowchart&lt;/strong&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```mermaid
-graph TD
-A[Hard] --&amp;gt;|Text| B(Round)
-B --&amp;gt; C{Decision}
-C --&amp;gt;|One| D[Result 1]
-C --&amp;gt;|Two| E[Result 2]
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;graph TD
-A[Hard] --&amp;gt;|Text| B(Round)
-B --&amp;gt; C{Decision}
-C --&amp;gt;|One| D[Result 1]
-C --&amp;gt;|Two| E[Result 2]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;An example &lt;strong&gt;sequence diagram&lt;/strong&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```mermaid
-sequenceDiagram
-Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
-loop Healthcheck
-    John-&amp;gt;&amp;gt;John: Fight against hypochondria
-end
-Note right of John: Rational thoughts!
-John--&amp;gt;&amp;gt;Alice: Great!
-John-&amp;gt;&amp;gt;Bob: How about you?
-Bob--&amp;gt;&amp;gt;John: Jolly good!
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;sequenceDiagram
-Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
-loop Healthcheck
-    John-&amp;gt;&amp;gt;John: Fight against hypochondria
-end
-Note right of John: Rational thoughts!
-John--&amp;gt;&amp;gt;Alice: Great!
-John-&amp;gt;&amp;gt;Bob: How about you?
-Bob--&amp;gt;&amp;gt;John: Jolly good!
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;An example &lt;strong&gt;Gantt diagram&lt;/strong&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```mermaid
-gantt
-section Section
-Completed :done,    des1, 2014-01-06,2014-01-08
-Active        :active,  des2, 2014-01-07, 3d
-Parallel 1   :         des3, after des1, 1d
-Parallel 2   :         des4, after des1, 1d
-Parallel 3   :         des5, after des3, 1d
-Parallel 4   :         des6, after des4, 1d
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;gantt
-section Section
-Completed :done,    des1, 2014-01-06,2014-01-08
-Active        :active,  des2, 2014-01-07, 3d
-Parallel 1   :         des3, after des1, 1d
-Parallel 2   :         des4, after des1, 1d
-Parallel 3   :         des5, after des3, 1d
-Parallel 4   :         des6, after des4, 1d
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;An example &lt;strong&gt;class diagram&lt;/strong&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```mermaid
-classDiagram
-Class01 &amp;lt;|-- AveryLongClass : Cool
-&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Class01
-Class09 --&amp;gt; C2 : Where am i?
-Class09 --* C3
-Class09 --|&amp;gt; Class07
-Class07 : equals()
-Class07 : Object[] elementData
-Class01 : size()
-Class01 : int chimp
-Class01 : int gorilla
-class Class10 {
-  &amp;lt;&amp;lt;service&amp;gt;&amp;gt;
-  int id
-  size()
-}
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;classDiagram
-Class01 &amp;lt;|-- AveryLongClass : Cool
-&amp;lt;&amp;lt;interface&amp;gt;&amp;gt; Class01
-Class09 --&amp;gt; C2 : Where am i?
-Class09 --* C3
-Class09 --|&amp;gt; Class07
-Class07 : equals()
-Class07 : Object[] elementData
-Class01 : size()
-Class01 : int chimp
-Class01 : int gorilla
-class Class10 {
-  &amp;lt;&amp;lt;service&amp;gt;&amp;gt;
-  int id
-  size()
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;An example &lt;strong&gt;state diagram&lt;/strong&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```mermaid
-stateDiagram
-[*] --&amp;gt; Still
-Still --&amp;gt; [*]
-Still --&amp;gt; Moving
-Moving --&amp;gt; Still
-Moving --&amp;gt; Crash
-Crash --&amp;gt; [*]
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-mermaid&#34;&gt;stateDiagram
-[*] --&amp;gt; Still
-Still --&amp;gt; [*]
-Still --&amp;gt; Moving
-Moving --&amp;gt; Still
-Moving --&amp;gt; Crash
-Crash --&amp;gt; [*]
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&#34;todo-lists&#34;&gt;Todo lists&lt;/h3&gt;
-&lt;p&gt;You can even write your todo lists in Academic too:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;- [x] Write math example
-- [x] Write diagram example
-- [ ] Do something else
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Write math example&lt;/li&gt;
-&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Write diagram example&lt;/li&gt;
-&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Do something else&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;tables&#34;&gt;Tables&lt;/h3&gt;
-&lt;p&gt;Represent your data in tables:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;First Header&lt;/th&gt;
-&lt;th&gt;Second Header&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Content Cell&lt;/td&gt;
-&lt;td&gt;Content Cell&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Content Cell&lt;/td&gt;
-&lt;td&gt;Content Cell&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;asides&#34;&gt;Asides&lt;/h3&gt;
-&lt;p&gt;Academic supports a 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/#alerts&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;shortcode for asides&lt;/a&gt;, also referred to as &lt;em&gt;notices&lt;/em&gt;, &lt;em&gt;hints&lt;/em&gt;, or &lt;em&gt;alerts&lt;/em&gt;. By wrapping a paragraph in &lt;code&gt;{{% alert note %}} ... {{% /alert %}}&lt;/code&gt;, it will render as an aside.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{% alert note %}}
-A Markdown aside is useful for displaying notices, hints, or definitions to your readers.
-{{% /alert %}}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    A Markdown aside is useful for displaying notices, hints, or definitions to your readers.
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;h3 id=&#34;spoilers&#34;&gt;Spoilers&lt;/h3&gt;
-&lt;p&gt;Add a spoiler to a page to reveal text, such as an answer to a question, after a button is clicked.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; spoiler text=&amp;quot;Click to view the spoiler&amp;quot; &amp;gt;}}
-You found me!
-{{&amp;lt; /spoiler &amp;gt;}}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;div class=&#34;spoiler &#34; &gt;
-  &lt;p&gt;
-    &lt;a class=&#34;btn btn-primary&#34; data-toggle=&#34;collapse&#34; href=&#34;#spoiler-1&#34; role=&#34;button&#34; aria-expanded=&#34;false&#34; aria-controls=&#34;spoiler-1&#34;&gt;
-      Click to view the spoiler
-    &lt;/a&gt;
-  &lt;/p&gt;
-  &lt;div class=&#34;collapse card &#34; id=&#34;spoiler-1&#34;&gt;
-    &lt;div class=&#34;card-body&#34;&gt;
-      You found me!
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;h3 id=&#34;icons&#34;&gt;Icons&lt;/h3&gt;
-&lt;p&gt;Academic enables you to use a wide range of 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/page-builder/#icons&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;icons from &lt;em&gt;Font Awesome&lt;/em&gt; and &lt;em&gt;Academicons&lt;/em&gt;&lt;/a&gt; in addition to 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/#emojis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;emojis&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Here are some examples using the &lt;code&gt;icon&lt;/code&gt; shortcode to render icons:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;{{&amp;lt; icon name=&amp;quot;terminal&amp;quot; pack=&amp;quot;fas&amp;quot; &amp;gt;}} Terminal  
-{{&amp;lt; icon name=&amp;quot;python&amp;quot; pack=&amp;quot;fab&amp;quot; &amp;gt;}} Python  
-{{&amp;lt; icon name=&amp;quot;r-project&amp;quot; pack=&amp;quot;fab&amp;quot; &amp;gt;}} R
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;renders as&lt;/p&gt;
-&lt;p&gt;
-  &lt;i class=&#34;fas fa-terminal  pr-1 fa-fw&#34;&gt;&lt;/i&gt; Terminal&lt;br&gt;
-
-  &lt;i class=&#34;fab fa-python  pr-1 fa-fw&#34;&gt;&lt;/i&gt; Python&lt;br&gt;
-
-  &lt;i class=&#34;fab fa-r-project  pr-1 fa-fw&#34;&gt;&lt;/i&gt; R&lt;/p&gt;
-&lt;h3 id=&#34;did-you-find-this-page-helpful-consider-sharing-it-&#34;&gt;Did you find this page helpful? Consider sharing it 🙌&lt;/h3&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Display Jupyter Notebooks with Academic</title>
-      <link>/post/jupyter/</link>
-      <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
-      <guid>/post/jupyter/</guid>
-      <description>&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from IPython.core.display import Image
-Image(&#39;https://www.python.org/static/community_logos/python-logo-master-v3-TM-flattened.png&#39;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;./index_1_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;print(&amp;quot;Welcome to Academic!&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;Welcome to Academic!
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&#34;install-python-and-jupyterlab&#34;&gt;Install Python and JupyterLab&lt;/h2&gt;
-&lt;p&gt;
-&lt;a href=&#34;https://www.anaconda.com/distribution/#download-section&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Install Anaconda&lt;/a&gt; which includes Python 3 and JupyterLab.&lt;/p&gt;
-&lt;p&gt;Alternatively, install JupyterLab with &lt;code&gt;pip3 install jupyterlab&lt;/code&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;create-or-upload-a-jupyter-notebook&#34;&gt;Create or upload a Jupyter notebook&lt;/h2&gt;
-&lt;p&gt;Run the following commands in your Terminal, substituting &lt;code&gt;&amp;lt;MY-WEBSITE-FOLDER&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;SHORT-POST-TITLE&amp;gt;&lt;/code&gt; with the file path to your Academic website folder and a short title for your blog post (use hyphens instead of spaces), respectively:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;mkdir -p &amp;lt;MY-WEBSITE-FOLDER&amp;gt;/content/post/&amp;lt;SHORT-POST-TITLE&amp;gt;/
-cd &amp;lt;MY-WEBSITE-FOLDER&amp;gt;/content/post/&amp;lt;SHORT-POST-TITLE&amp;gt;/
-jupyter lab index.ipynb
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;jupyter&lt;/code&gt; command above will launch the JupyterLab editor, allowing us to add Academic metadata and write the content.&lt;/p&gt;
-&lt;h2 id=&#34;edit-your-post-metadata&#34;&gt;Edit your post metadata&lt;/h2&gt;
-&lt;p&gt;The first cell of your Jupter notebook will contain your post metadata (
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/front-matter/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;front matter&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;In Jupter, choose &lt;em&gt;Markdown&lt;/em&gt; as the type of the first cell and wrap your Academic metadata in three dashes, indicating that it is YAML front matter:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;---
-title: My post&#39;s title
-date: 2019-09-01
-
-# Put any other Academic metadata here...
----
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Edit the metadata of your post, using the 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;documentation&lt;/a&gt; as a guide to the available options.&lt;/p&gt;
-&lt;p&gt;To set a 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content/#featured-image&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;featured image&lt;/a&gt;, place an image named &lt;code&gt;featured&lt;/code&gt; into your post&amp;rsquo;s folder.&lt;/p&gt;
-&lt;p&gt;For other tips, such as using math, see the guide on 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;writing content with Academic&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;convert-notebook-to-markdown&#34;&gt;Convert notebook to Markdown&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;jupyter nbconvert index.ipynb --to markdown --NbConvertApp.output_files_dir=.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
-&lt;p&gt;This post was created with Jupyter. The orginal files can be found at &lt;a href=&#34;https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter&#34;&gt;https://github.com/gcushen/hugo-academic/tree/master/exampleSite/content/post/jupyter&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Academic: the website builder for Hugo</title>
-      <link>/post/getting-started/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      <guid>/post/getting-started/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;Create a free website with Academic using Markdown, Jupyter, or RStudio. Choose a beautiful color theme and build anything with the Page Builder - over 40 &lt;em&gt;widgets&lt;/em&gt;, &lt;em&gt;themes&lt;/em&gt;, and &lt;em&gt;language packs&lt;/em&gt; included!&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;
-&lt;a href=&#34;https://academic-demo.netlify.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Check out the latest &lt;strong&gt;demo&lt;/strong&gt;&lt;/a&gt; of what you&amp;rsquo;ll get in less than 10 minutes, or 
-&lt;a href=&#34;https://sourcethemes.com/academic/#expo&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;view the &lt;strong&gt;showcase&lt;/strong&gt;&lt;/a&gt; of personal, project, and business sites.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;👉 
-&lt;a href=&#34;#install&#34;&gt;&lt;strong&gt;Get Started&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;📚 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;View the &lt;strong&gt;documentation&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;💬 
-&lt;a href=&#34;https://discourse.gohugo.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Ask a question&lt;/strong&gt; on the forum&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;👥 
-&lt;a href=&#34;https://spectrum.chat/academic&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chat with the &lt;strong&gt;community&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;🐦 Twitter: 
-&lt;a href=&#34;https://twitter.com/source_themes&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;@source_themes&lt;/a&gt; 
-&lt;a href=&#34;https://twitter.com/GeorgeCushen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;@GeorgeCushen&lt;/a&gt; 
-&lt;a href=&#34;https://twitter.com/search?q=%23MadeWithAcademic&amp;amp;src=typd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;#MadeWithAcademic&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;💡 
-&lt;a href=&#34;https://github.com/gcushen/hugo-academic/issues&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Request a &lt;strong&gt;feature&lt;/strong&gt; or report a &lt;strong&gt;bug&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;⬆️ &lt;strong&gt;Updating?&lt;/strong&gt; View the 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/update/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Update Guide&lt;/a&gt; and 
-&lt;a href=&#34;https://sourcethemes.com/academic/updates/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Release Notes&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;❤ &lt;strong&gt;Support development&lt;/strong&gt; of Academic:
-&lt;ul&gt;
-&lt;li&gt;☕️ 
-&lt;a href=&#34;https://paypal.me/cushen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Donate a coffee&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;💵 
-&lt;a href=&#34;https://www.patreon.com/cushen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Become a backer on &lt;strong&gt;Patreon&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;🖼️ 
-&lt;a href=&#34;https://www.redbubble.com/people/neutreno/works/34387919-academic&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Decorate your laptop or journal with an Academic &lt;strong&gt;sticker&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;👕 
-&lt;a href=&#34;https://academic.threadless.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Wear the &lt;strong&gt;T-shirt&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;👩‍💻 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/contribute/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Contribute&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-&lt;figure id=&#34;figure-academic-is-mobile-first-with-a-responsive-design-to-ensure-that-your-site-looks-stunning-on-every-device&#34;&gt;
-
-
-  &lt;a data-fancybox=&#34;&#34; href=&#34;https://raw.githubusercontent.com/gcushen/hugo-academic/master/academic.png&#34; data-caption=&#34;Academic is mobile first with a responsive design to ensure that your site looks stunning on every device.&#34;&gt;
-
-
-  &lt;img src=&#34;https://raw.githubusercontent.com/gcushen/hugo-academic/master/academic.png&#34; alt=&#34;&#34;  &gt;
-&lt;/a&gt;
-
-
-  
-  
-  &lt;figcaption&gt;
-    Academic is mobile first with a responsive design to ensure that your site looks stunning on every device.
-  &lt;/figcaption&gt;
-
-
-&lt;/figure&gt;
-
-&lt;p&gt;&lt;strong&gt;Key features:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Page builder&lt;/strong&gt; - Create &lt;em&gt;anything&lt;/em&gt; with 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/page-builder/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;widgets&lt;/strong&gt;&lt;/a&gt; and 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;elements&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Edit any type of content&lt;/strong&gt; - Blog posts, publications, talks, slides, projects, and more!&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Create content&lt;/strong&gt; in 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Markdown&lt;/strong&gt;&lt;/a&gt;, 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/jupyter/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Jupyter&lt;/strong&gt;&lt;/a&gt;, or 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/install/#install-with-rstudio&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;RStudio&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Plugin System&lt;/strong&gt; - Fully customizable 
-&lt;a href=&#34;https://sourcethemes.com/academic/themes/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;color&lt;/strong&gt; and &lt;strong&gt;font themes&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Display Code and Math&lt;/strong&gt; - Code highlighting and 
-&lt;a href=&#34;https://en.wikibooks.org/wiki/LaTeX/Mathematics&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;LaTeX math&lt;/a&gt; supported&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Integrations&lt;/strong&gt; - 
-&lt;a href=&#34;https://analytics.google.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Google Analytics&lt;/a&gt;, 
-&lt;a href=&#34;https://disqus.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Disqus commenting&lt;/a&gt;, Maps, Contact Forms, and more!&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Beautiful Site&lt;/strong&gt; - Simple and refreshing one page design&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Industry-Leading SEO&lt;/strong&gt; - Help get your website found on search engines and social media&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Media Galleries&lt;/strong&gt; - Display your images and videos with captions in a customizable gallery&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Mobile Friendly&lt;/strong&gt; - Look amazing on every screen with a mobile friendly version of your site&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Multi-language&lt;/strong&gt; - 15+ language packs including English, 中文, and Português&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Multi-user&lt;/strong&gt; - Each author gets their own profile page&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Privacy Pack&lt;/strong&gt; - Assists with GDPR&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Stand Out&lt;/strong&gt; - Bring your site to life with animation, parallax backgrounds, and scroll effects&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;One-Click Deployment&lt;/strong&gt; - No servers. No databases. Only files.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
-&lt;p&gt;Academic comes with &lt;strong&gt;automatic day (light) and night (dark) mode&lt;/strong&gt; built-in. Alternatively, visitors can  choose their preferred mode - click the sun/moon icon in the top right of the 
-&lt;a href=&#34;https://academic-demo.netlify.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Demo&lt;/a&gt; to see it in action! Day/night mode can also be disabled by the site admin in &lt;code&gt;params.toml&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;
-&lt;a href=&#34;https://sourcethemes.com/academic/themes/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Choose a stunning &lt;strong&gt;theme&lt;/strong&gt; and &lt;strong&gt;font&lt;/strong&gt;&lt;/a&gt; for your site. Themes are fully 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/customization/#custom-theme&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;customizable&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;ecosystem&#34;&gt;Ecosystem&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;
-&lt;a href=&#34;https://github.com/sourcethemes/academic-admin&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Academic Admin&lt;/a&gt;:&lt;/strong&gt; An admin tool to import publications from BibTeX or import assets for an offline site&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;
-&lt;a href=&#34;https://github.com/sourcethemes/academic-scripts&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Academic Scripts&lt;/a&gt;:&lt;/strong&gt; Scripts to help migrate content to new versions of Academic&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;install&#34;&gt;Install&lt;/h2&gt;
-&lt;p&gt;You can choose from one of the following four methods to install:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/install/#install-with-web-browser&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;one-click install using your web browser (recommended)&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/install/#install-with-git&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;install on your computer using &lt;strong&gt;Git&lt;/strong&gt; with the Command Prompt/Terminal app&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/install/#install-with-zip&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;install on your computer by downloading the &lt;strong&gt;ZIP files&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/install/#install-with-rstudio&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;install on your computer with &lt;strong&gt;RStudio&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Then 
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/get-started/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;personalize and deploy your new site&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;updating&#34;&gt;Updating&lt;/h2&gt;
-&lt;p&gt;
-&lt;a href=&#34;https://sourcethemes.com/academic/docs/update/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;View the Update Guide&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Feel free to &lt;em&gt;star&lt;/em&gt; the project on 
-&lt;a href=&#34;https://github.com/gcushen/hugo-academic/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Github&lt;/a&gt; to help keep track of 
-&lt;a href=&#34;https://sourcethemes.com/academic/updates&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;updates&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
-&lt;p&gt;Copyright 2016-present 
-&lt;a href=&#34;https://georgecushen.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;George Cushen&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Released under the 
-&lt;a href=&#34;https://github.com/gcushen/hugo-academic/blob/master/LICENSE.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MIT&lt;/a&gt; license.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Hello R Markdown</title>
-      <link>/post/2015-07-23-r-rmarkdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      <guid>/post/2015-07-23-r-rmarkdown/</guid>
+      <title>Collecting Highway Bearings</title>
+      <link>/post/collecting-highway-bearings/</link>
+      <pubDate>Mon, 06 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>/post/collecting-highway-bearings/</guid>
       <description>
+&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/leaflet/leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/leaflet/leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/leafletfix/leafletfix.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/leaflet-binding/leaflet.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;div id=&#34;r-markdown&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;R Markdown&lt;/h1&gt;
-&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;a href=&#34;http://rmarkdown.rstudio.com&#34; class=&#34;uri&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can embed an R code chunk like this:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(cars)
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-fit &amp;lt;- lm(dist ~ speed, data = cars)
-fit
-## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
-## 
-## Coefficients:
-## (Intercept)        speed  
-##     -17.579        3.932&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;what-direction-is-this-road-going&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;What direction is this road going?&lt;/h3&gt;
+&lt;p&gt;I’m kicking off this blog with a geospatial example. I did some work recently where I needed to know:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the nearest section of road to a given point; and,&lt;/li&gt;
+&lt;li&gt;the road’s approximate bearing.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It’s a long story why this was needed but getting there involved some useful discoveries so I’m repeating the crux of it here. Interestingly, shortly after writing the scripts, I came across &lt;a href=&#34;https://geoffboeing.com/2018/07/comparing-city-street-orientations/&#34;&gt;Geoff Boeing’s beautiful post&lt;/a&gt; visualising similar information for 25 cities.&lt;/p&gt;
+&lt;p&gt;The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it’s nearest highway ‘way’ feature. Then get the coordinates of the beginning and endpoint of this way feature and use the pair of points to define a bearing. Makes sense? OK, here we go:&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;including-plots&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Including Plots&lt;/h1&gt;
-&lt;p&gt;You can also embed plots. See Figure &lt;a href=&#34;#fig:pie&#34;&gt;1&lt;/a&gt; for example:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;),
-  col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;),
-  init.angle = -50, border = NA
-)&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:pie&#34;&gt;&lt;/span&gt;
-&lt;img src=&#34;/post/2015-07-23-r-rmarkdown_files/figure-html/pie-1.png&#34; alt=&#34;A fancy pie chart.&#34; width=&#34;672&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;
-Figure 1: A fancy pie chart.
-&lt;/p&gt;
+&lt;div id=&#34;get-the-packages&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get the packages&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(geosphere)
+library(sf)
+## Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0
+library(leaflet)
+library(osmdata)
+## Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
+library(data.table)
+library(ggmap)
+## Loading required package: ggplot2
+## Google&amp;#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.
+## Please cite ggmap if you use it! See citation(&amp;quot;ggmap&amp;quot;) for details.&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+&lt;div id=&#34;organise-the-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Organise the data&lt;/h3&gt;
+&lt;p&gt;I’m going to use 4 points dotted around the Northern Quarter in Manchester (UK). Let’s put them in a data.frame:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df &amp;lt;- data.frame(ID = 1:4,
+ Longitude = c(-2.232086, -2.235675, -2.233628, -2.232453),
+ Latitude = c(53.484510, 53.484318, 53.484103, 53.481176), stringsAsFactors = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then let’s convert to an sf (spatial features) points object. I’ve found myself using this next command over and over.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df.sf &amp;lt;- st_as_sf(df, coords = c(&amp;quot;Longitude&amp;quot;, &amp;quot;Latitude&amp;quot;), crs=4326)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The crs argument is telling st_as_sf that these coordinates are using the WGS84 coordinate datum which has a EPSG code of 4326. This is needed if we want to ‘project’ the points out of latitude/longitude format and into distance north and west from a given reference point. If you’re not familiar with this concept &lt;a href=&#34;https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf&#34;&gt;here’s a good pdf tutorial&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualise&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Visualise&lt;/h3&gt;
+&lt;p&gt;At this point it’s always good to take a look at what we’ve got. I’m going to use leaflet as it works well with Blogdown.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;m &amp;lt;- leaflet(df) %&amp;gt;% addTiles() %&amp;gt;% addCircleMarkers(
+  lng = ~Longitude,
+  lat = ~Latitude,
+    radius = 8,
+    color = &amp;quot;green&amp;quot;,
+    stroke = FALSE, fillOpacity = 0.9
+  )
+m&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;leaflet html-widget&#34;&gt;&lt;/div&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;options&#34;:{&#34;crs&#34;:{&#34;crsClass&#34;:&#34;L.CRS.EPSG3857&#34;,&#34;code&#34;:null,&#34;proj4def&#34;:null,&#34;projectedBounds&#34;:null,&#34;options&#34;:{}}},&#34;calls&#34;:[{&#34;method&#34;:&#34;addTiles&#34;,&#34;args&#34;:[&#34;//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#34;,null,null,{&#34;minZoom&#34;:0,&#34;maxZoom&#34;:18,&#34;tileSize&#34;:256,&#34;subdomains&#34;:&#34;abc&#34;,&#34;errorTileUrl&#34;:&#34;&#34;,&#34;tms&#34;:false,&#34;noWrap&#34;:false,&#34;zoomOffset&#34;:0,&#34;zoomReverse&#34;:false,&#34;opacity&#34;:1,&#34;zIndex&#34;:1,&#34;detectRetina&#34;:false,&#34;attribution&#34;:&#34;&amp;copy; &lt;a href=\&#34;http://openstreetmap.org\&#34;&gt;OpenStreetMap&lt;\/a&gt; contributors, &lt;a href=\&#34;http://creativecommons.org/licenses/by-sa/2.0/\&#34;&gt;CC-BY-SA&lt;\/a&gt;&#34;}]},{&#34;method&#34;:&#34;addCircleMarkers&#34;,&#34;args&#34;:[[53.48451,53.484318,53.484103,53.481176],[-2.232086,-2.235675,-2.233628,-2.232453],8,null,null,{&#34;interactive&#34;:true,&#34;className&#34;:&#34;&#34;,&#34;stroke&#34;:false,&#34;color&#34;:&#34;green&#34;,&#34;weight&#34;:5,&#34;opacity&#34;:0.5,&#34;fill&#34;:true,&#34;fillColor&#34;:&#34;green&#34;,&#34;fillOpacity&#34;:0.9},null,null,null,null,null,{&#34;interactive&#34;:false,&#34;permanent&#34;:false,&#34;direction&#34;:&#34;auto&#34;,&#34;opacity&#34;:1,&#34;offset&#34;:[0,0],&#34;textsize&#34;:&#34;10px&#34;,&#34;textOnly&#34;:false,&#34;className&#34;:&#34;&#34;,&#34;sticky&#34;:true},null]}],&#34;limits&#34;:{&#34;lat&#34;:[53.481176,53.48451],&#34;lng&#34;:[-2.235675,-2.232086]}},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+&lt;/div&gt;
+&lt;div id=&#34;get-information-from-osm&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get information from OSM&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;this.bbox &amp;lt;- st_bbox(df.sf)
+osm.road.types = c(&amp;quot;motorway&amp;quot;, &amp;quot;motorway_link&amp;quot;, &amp;quot;trunk&amp;quot;, &amp;quot;trunk_link&amp;quot;, &amp;quot;primary&amp;quot;, &amp;quot;primary_link&amp;quot;, &amp;quot;secondary&amp;quot;, 
+                   &amp;quot;secondary_link&amp;quot;, &amp;quot;tertiary&amp;quot;, &amp;quot;unclassified&amp;quot;, &amp;quot;residential&amp;quot;)
+out &amp;lt;- osmdata::opq (this.bbox) %&amp;gt;%
+            #add_osm_feature (key = &amp;quot;highway&amp;quot;, value = c(osm.road.types, paste0(osm.road.types, &amp;quot;_link&amp;quot;))) %&amp;gt;%
+            osmdata::add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
+            osmdata::osmdata_sf(quiet = F)
+## Issuing query to Overpass API ...
+## Request failed [504]. Retrying in 1 seconds...
+## Rate limit: 0
+## Query complete!
+## converting OSM data to sf format
+out
+## Object of class &amp;#39;osmdata&amp;#39; with:
+##                  $bbox : 53.481176,-2.235675,53.48451,-2.232086
+##         $overpass_call : The call submitted to the overpass API
+##                  $meta : metadata including timestamp and version numbers
+##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 205 points
+##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 45 linestrings
+##          $osm_polygons : &amp;#39;sf&amp;#39; Simple Features Collection with 0 polygons
+##        $osm_multilines : NULL
+##     $osm_multipolygons : NULL
+road.lines &amp;lt;- out$osm_lines
+nrow(road.lines)
+## [1] 45&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;opq&lt;/code&gt; query returns an osmdata object with various items. The section we’re interested in is the &lt;code&gt;osm_lines&lt;/code&gt;. These are the way objects representing road segments. The query has returned 44 road segments that intersected the bounded box of our 4 points (at the time of posting).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;get-candidate-closest-roads-to-points&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get candidate closest roads to points&lt;/h3&gt;
+&lt;p&gt;We’re just testing here with 4 points. But you may want to do something similar with thousands. So it’s useful to be able to identify candidate roads out of all the road segments returned by &lt;code&gt;opq&lt;/code&gt; that are within a specified distance of the points. To do this we project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df.sf.tf &amp;lt;- st_transform(df.sf, 27700) # US National Atlas Equal Area projection
+road.lines.tf &amp;lt;- st_transform(road.lines, 27700)
+buffer.size &amp;lt;- 50
+df.sf.tf.bf &amp;lt;- st_buffer(df.sf.tf, buffer.size)
+intersected.items &amp;lt;- st_intersects(df.sf.tf.bf, road.lines.tf, sparse = F)
+dim(intersected.items)
+## [1]  4 45&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The dimensions show we have 4 rows, one for each of our 4 points, and 44 columns, one for each OSM road segment within our bounding box. The matrix contains TRUE/FALSE values where TRUE indicates a point of intersection.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;get-the-closest-road-segment&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get the closest road segment&lt;/h3&gt;
+&lt;p&gt;So now, using the location of TRUE values in each row or the &lt;code&gt;intersected.items&lt;/code&gt; matrix, we can subset the &lt;code&gt;road.lines&lt;/code&gt; so that we’re only checking which road is the closest to the point from within a group that we know are at most 50m away.
+The &lt;code&gt;st_coordinates&lt;/code&gt; function is useful to return just the coordinate information from an sf object, and the dist2Line function calculates the shortest distance between a point and a polyline (There are some good details about doing this type of calculation at the &lt;a href=&#34;https://www.movable-type.co.uk/scripts/latlong.html&#34;&gt;Movable Type website&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;number.of.point &amp;lt;- nrow(intersected.items)
+distances.vect &amp;lt;- matrix(NA_real_, nrow = nrow(df.sf.tf), ncol = 4)
+colnames(distances.vect) &amp;lt;- c(&amp;quot;distance&amp;quot;, &amp;quot;lon&amp;quot;, &amp;quot;lat&amp;quot;, &amp;quot;ID&amp;quot;)
+for (i in seq_len(number.of.point)) {
+  # Out of all 44 road segments, get the index of the ones that are within 50m of point i. 
+  original.road.idx &amp;lt;- which(intersected.items[i, ] == TRUE)
+  distances.vect.temp  &amp;lt;- geosphere::dist2Line(p = st_coordinates(df.sf[i, ]), line = as_Spatial(road.lines[original.road.idx, ]))
+  distances.vect.temp[1, &amp;quot;ID&amp;quot;] &amp;lt;- original.road.idx[distances.vect.temp[1, &amp;quot;ID&amp;quot;]]
+  distances.vect[i, ] &amp;lt;- distances.vect.temp
+}
+distances.vect
+##      distance       lon      lat ID
+## [1,] 5.061288 -2.232137 53.48448 44
+## [2,] 3.500525 -2.235712 53.48430 10
+## [3,] 6.111912 -2.233558 53.48407  5
+## [4,] 5.541079 -2.232491 53.48122 19&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So now, not only have we found the nearest road segments, we’ve also got the coordinates of the nearest point on the road segments to our original points stored in the lon/lat columns &lt;code&gt;distances.vec&lt;/code&gt;. We’ve &lt;em&gt;snapped&lt;/em&gt; our points to the roads which is a bonus.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;get-the-road-section-bearings&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get the road section bearings&lt;/h3&gt;
+&lt;p&gt;Now we extract the 4 closest road segments from the full set of 44 and add the useful features we’ve created so far. The challenge here was to get the coordinates of the points making up our closest road segments, and extract just the first and last coordinate pairs of each. I did this using data.table. When retrieving the coordinates via &lt;code&gt;st_coordinates&lt;/code&gt; a third column labelled &lt;code&gt;L1&lt;/code&gt; is created with a group ID of each polyline object. This can be used as a grouping variable in data.table. The .SD[…] syntax holds the sub-data.table once the full data.table has been split by the grouping variable, finally 1 and .N are the first row and last row of each sub-data.table. There are going to be many other ways to do this but if this process was applied to thousands of points then the speed of data.table will pay off. Once we have the beginning and end coordinate pairs it’s straightforward to call the &lt;code&gt;bearing&lt;/code&gt; function from the &lt;code&gt;geosphere&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;out &amp;lt;- road.lines[as.integer(distances.vect[, &amp;quot;ID&amp;quot;]), ]
+out$dist.to.nearest &amp;lt;- distances.vect[, &amp;quot;distance&amp;quot;]
+out$snap.lat &amp;lt;- distances.vect[, &amp;quot;lat&amp;quot;]
+out$snap.lon &amp;lt;- distances.vect[, &amp;quot;lon&amp;quot;]
+matching.road.lines.coords &amp;lt;- data.table::as.data.table(st_coordinates(out))
+matching.road.lines.coords.begin &amp;lt;- as.matrix(matching.road.lines.coords[, .SD[1, .(X, Y)], by = &amp;quot;L1&amp;quot;][, L1 := NULL])
+matching.road.lines.coords.end &amp;lt;- as.matrix(matching.road.lines.coords[, .SD[.N, .(X, Y)], by = &amp;quot;L1&amp;quot;][, L1 := NULL])
+matching.road.lines.bearing &amp;lt;- geosphere::bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
+out$bearing &amp;lt;- (matching.road.lines.bearing + 360) %% 360
+out$bearing
+## [1] 133.2409 316.6075 217.5574 258.1974&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;plot-with-estimated-bearing&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Plot with estimated bearing&lt;/h3&gt;
+&lt;p&gt;In order to visualise the estimated road bearing for our 4 points we need to add arrow endpoints information. We can do this with a little trigonometry.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;out$delta.x &amp;lt;- sin((pi*out$bearing) / 180) * 0.00025
+out$delta.y &amp;lt;- cos((pi*out$bearing) / 180) * 0.00025&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we have everything we need to plot the snapped locations and show an arrow with our road segment bearing.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;The results are pretty good, definitely good enough to classify a point into one of the 8 compass bearing directions: N, NE, E… etc. In this post we’ve explored working with &lt;code&gt;sf&lt;/code&gt; spatial points, we’ve generated and run an OSM overpass filter and retrieved matching results, and we’ve used &lt;code&gt;Leaflet&lt;/code&gt; and &lt;code&gt;ggmap&lt;/code&gt; to visualise results. I hope you’ve found this useful.&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>

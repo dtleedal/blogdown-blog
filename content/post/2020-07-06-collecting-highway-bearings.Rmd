@@ -1,0 +1,167 @@
+---
+title: Collecting Highway Bearings
+author: D. Leedal
+date: '2020-07-06'
+slug: collecting-highway-bearings
+categories:
+  - R
+tags:
+  - R
+  - geospatial
+  - sf
+  - OSM
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-07-06T11:35:31+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+### What direction is this road going?
+
+I'm kicking off this blog with a geospatial example. I did some work recently where I needed to know:
+
+* the nearest section of road to a given point; and,
+* the road's approximate bearing.
+
+It's a long story why this was needed but getting there involved some useful discoveries so I'm repeating the crux of it here. Interestingly, shortly after writing the scripts, I came across [Geoff Boeing's beautiful post](https://geoffboeing.com/2018/07/comparing-city-street-orientations/) visualising similar information for 25 cities. 
+
+The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it's nearest highway 'way' feature. Then get the coordinates of the beginning and endpoint of this way feature and use the pair of points to define a bearing. Makes sense? OK, here we go:
+
+### Get the packages
+```{r}
+library(geosphere)
+library(sf)
+library(leaflet)
+library(osmdata)
+library(data.table)
+library(ggmap)
+```
+
+### Organise the data
+I'm going to use 4 points dotted around the Northern Quarter in Manchester (UK). Let's put them in a data.frame:
+
+```{r}
+df <- data.frame(ID = 1:4,
+ Longitude = c(-2.232086, -2.235675, -2.233628, -2.232453),
+ Latitude = c(53.484510, 53.484318, 53.484103, 53.481176), stringsAsFactors = FALSE)
+```
+
+Then let's convert to an sf (spatial features) points object. I've found myself using this next command over and over.
+
+```{r}
+df.sf <- st_as_sf(df, coords = c("Longitude", "Latitude"), crs=4326)
+```
+
+The crs argument is telling st_as_sf that these coordinates are using the WGS84 coordinate datum which has a EPSG code of 4326. This is needed if we want to 'project' the points out of latitude/longitude format and into distance north and west from a given reference point. If you're not familiar with this concept [here's a good pdf tutorial](https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf).
+
+### Visualise
+At this point it's always good to take a look at what we've got. I'm going to use leaflet as it works well with Blogdown.
+```{r}
+m <- leaflet(df) %>% addTiles() %>% addCircleMarkers(
+  lng = ~Longitude,
+  lat = ~Latitude,
+    radius = 8,
+    color = "green",
+    stroke = FALSE, fillOpacity = 0.9
+  )
+m
+```
+
+### Get information from OSM
+
+```{r}
+this.bbox <- st_bbox(df.sf)
+osm.road.types = c("motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", 
+                   "secondary_link", "tertiary", "unclassified", "residential")
+out <- osmdata::opq (this.bbox) %>%
+            #add_osm_feature (key = "highway", value = c(osm.road.types, paste0(osm.road.types, "_link"))) %>%
+            osmdata::add_osm_feature (key = "highway", value = osm.road.types) %>%
+            osmdata::osmdata_sf(quiet = F)
+out
+road.lines <- out$osm_lines
+nrow(road.lines)
+```
+
+The `opq` query returns an osmdata object with various items. The section we're interested in is the `osm_lines`. These are the way objects representing road segments. The query has returned 44 road segments that intersected the bounded box of our 4 points (at the time of posting).
+
+### Get candidate closest roads to points
+We're just testing here with 4 points. But you may want to do something similar with thousands. So it's useful to be able to identify candidate roads out of all the road segments returned by `opq` that are within a specified distance of the points. To do this we project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.
+
+```{r}
+df.sf.tf <- st_transform(df.sf, 27700) # US National Atlas Equal Area projection
+road.lines.tf <- st_transform(road.lines, 27700)
+buffer.size <- 50
+df.sf.tf.bf <- st_buffer(df.sf.tf, buffer.size)
+intersected.items <- st_intersects(df.sf.tf.bf, road.lines.tf, sparse = F)
+dim(intersected.items)
+```
+
+The dimensions show we have 4 rows, one for each of our 4 points, and 44 columns, one for each OSM road segment within our bounding box. The matrix contains TRUE/FALSE values where TRUE indicates a point of intersection.
+
+### Get the closest road segment
+So now, using the location of TRUE values in each row or the `intersected.items` matrix, we can subset the `road.lines` so that we're only checking which road is the closest to the point from within a group that we know are at most 50m away.
+The `st_coordinates` function is useful to return just the coordinate information from an sf object, and the dist2Line function calculates the shortest distance between a point and a polyline (There are some good details about doing this type of calculation at the [Movable Type website](https://www.movable-type.co.uk/scripts/latlong.html).
+
+```{r}
+number.of.point <- nrow(intersected.items)
+distances.vect <- matrix(NA_real_, nrow = nrow(df.sf.tf), ncol = 4)
+colnames(distances.vect) <- c("distance", "lon", "lat", "ID")
+for (i in seq_len(number.of.point)) {
+  # Out of all 44 road segments, get the index of the ones that are within 50m of point i. 
+  original.road.idx <- which(intersected.items[i, ] == TRUE)
+  distances.vect.temp  <- geosphere::dist2Line(p = st_coordinates(df.sf[i, ]), line = as_Spatial(road.lines[original.road.idx, ]))
+  distances.vect.temp[1, "ID"] <- original.road.idx[distances.vect.temp[1, "ID"]]
+  distances.vect[i, ] <- distances.vect.temp
+}
+distances.vect
+```
+
+So now, not only have we found the nearest road segments, we've also got the coordinates of the nearest point on the road segments to our original points stored in the lon/lat columns `distances.vec`. We've *snapped* our points to the roads which is a bonus.
+
+### Get the road section bearings
+Now we extract the 4 closest road segments from the full set of 44 and add the useful features we've created so far. The challenge here was to get the coordinates of the points making up our closest road segments, and extract just the first and last coordinate pairs of each. I did this using data.table. When retrieving the coordinates via `st_coordinates` a third column labelled `L1` is created with a group ID of each polyline object. This can be used as a grouping variable in data.table. The .SD[...] syntax holds the sub-data.table once the full data.table has been split by the grouping variable, finally 1 and .N are the first row and last row of each sub-data.table. There are going to be many other ways to do this but if this process was applied to thousands of points then the speed of data.table will pay off. Once we have the beginning and end coordinate pairs it's straightforward to call the `bearing` function from the `geosphere` package. 
+```{r}
+out <- road.lines[as.integer(distances.vect[, "ID"]), ]
+out$dist.to.nearest <- distances.vect[, "distance"]
+out$snap.lat <- distances.vect[, "lat"]
+out$snap.lon <- distances.vect[, "lon"]
+matching.road.lines.coords <- data.table::as.data.table(st_coordinates(out))
+matching.road.lines.coords.begin <- as.matrix(matching.road.lines.coords[, .SD[1, .(X, Y)], by = "L1"][, L1 := NULL])
+matching.road.lines.coords.end <- as.matrix(matching.road.lines.coords[, .SD[.N, .(X, Y)], by = "L1"][, L1 := NULL])
+matching.road.lines.bearing <- geosphere::bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
+out$bearing <- (matching.road.lines.bearing + 360) %% 360
+out$bearing
+```
+
+### Plot with estimated bearing
+In order to visualise the estimated road bearing for our 4 points we need to add arrow endpoints information. We can do this with a little trigonometry.
+```{r}
+out$delta.x <- sin((pi*out$bearing) / 180) * 0.00025
+out$delta.y <- cos((pi*out$bearing) / 180) * 0.00025
+```
+
+Now we have everything we need to plot the snapped locations and show an arrow with our road segment bearing.
+
+```{r echo = FALSE, message = FALSE, warning = FALSE}
+n.quarter.bb <- c(left = -2.236, bottom = 53.48, right = -2.23, top = 53.485)
+n.quarter <- get_stamenmap(bbox = n.quarter.bb, zoom = 18, messaging = FALSE)
+ggmap(n.quarter) + 
+  geom_point(data = out, aes(x=snap.lon, y=snap.lat), colour = "darkgreen", size = 4) +
+  geom_segment(data = out, aes(x=snap.lon, y=snap.lat, xend = snap.lon + delta.x, yend = snap.lat + delta.y), colour = "darkgreen", arrow = arrow(length = unit(0.2,"cm")))
+```
+
+### Summary
+The results are pretty good, definitely good enough to classify a point into one of the 8 compass bearing directions: N, NE, E... etc. In this post we've explored working with `sf` spatial points, we've generated and run an OSM overpass filter and retrieved matching results, and we've used `Leaflet` and `ggmap` to visualise results. I hope you've found this useful.
+
+
+
