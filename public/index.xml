@@ -104,7 +104,12 @@ out &amp;lt;- opq (this.bbox) %&amp;gt;%
   add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
   osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
-## Rate limit: 2
+## Request failed [502]. Retrying in 1.3 seconds...
+## Request failed [504]. Retrying in 2.7 seconds...
+## Request failed [500]. Retrying in 7 seconds...
+## Request failed [500]. Retrying in 1.3 seconds...
+## Rate limit: 0
+## Request failed [504]. Retrying in 1 seconds...
 ## Query complete!
 ## converting OSM data to sf format
 out
@@ -112,25 +117,25 @@ out
 ##                  $bbox : 53.481176,-2.235675,53.48451,-2.232086
 ##         $overpass_call : The call submitted to the overpass API
 ##                  $meta : metadata including timestamp and version numbers
-##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 199 points
-##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 44 linestrings
+##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 205 points
+##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 45 linestrings
 ##          $osm_polygons : &amp;#39;sf&amp;#39; Simple Features Collection with 0 polygons
 ##        $osm_multilines : NULL
 ##     $osm_multipolygons : NULL
 road.lines &amp;lt;- out$osm_lines
 nrow(road.lines)
-## [1] 44&lt;/code&gt;&lt;/pre&gt;
+## [1] 45&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-candidate-closest-roads-to-points&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get candidate closest roads to points&lt;/h3&gt;
-&lt;p&gt;Soon I’ll find the closest highway segment to each point, but if I had thousands of points and highways it would be wise to only check a subset of highways by associating nearby highways to each point. I’ll do that next. First I’ll project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df.sf.tf &amp;lt;- st_transform(df.sf, 27700) # US National Atlas Equal Area projection
+&lt;p&gt;Before finding the closest highway segment to a point, I’ll narrow down the search by first identifying all the highway segments within a fixed distance of each point. This won’t make much difference here but does provide a big speed up when there’s thousands of highways to choose from. Also you can, if needed, put this code in a loop and grow or shrink the buffer distance until a suitable number of candidate highways are found. First step is to project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df.sf.tf &amp;lt;- st_transform(df.sf, 27700) # OSGB 1936 British National Grid CRS
 road.lines.tf &amp;lt;- st_transform(road.lines, 27700)
 buffer.size &amp;lt;- 50
 df.sf.tf.bf &amp;lt;- st_buffer(df.sf.tf, buffer.size)
 intersected.items &amp;lt;- st_intersects(df.sf.tf.bf, road.lines.tf, sparse = F)
 dim(intersected.items)
-## [1]  4 44&lt;/code&gt;&lt;/pre&gt;
+## [1]  4 45&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The dimensions show I have 4 rows, one for each of the 4 points, and 44 columns, one for each OSM road segment within the bounding box. The matrix contains TRUE/FALSE values where TRUE indicates a point of intersection.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-the-closest-road-segment&#34; class=&#34;section level3&#34;&gt;
@@ -149,7 +154,7 @@ for (i in seq_len(number.of.point)) {
 }
 distances.vect
 ##      distance       lon      lat ID
-## [1,] 5.061288 -2.232137 53.48448 43
+## [1,] 5.061288 -2.232137 53.48448 44
 ## [2,] 3.500525 -2.235712 53.48430 10
 ## [3,] 6.111912 -2.233558 53.48407  5
 ## [4,] 5.541079 -2.232491 53.48122 19&lt;/code&gt;&lt;/pre&gt;

@@ -93,10 +93,10 @@ nrow(road.lines)
 ```
 
 ### Get candidate closest roads to points
-Soon I'll find the closest highway segment to each point, but if I had thousands of points and highways it would be wise to only check a subset of highways by associating nearby highways to each point. I'll do that next. First I'll project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.
+Before finding the closest highway segment to a point, I'll narrow down the search by first identifying all the highway segments within a fixed distance of each point. This won't make much difference here but does provide a big speed up when there's thousands of highways to choose from. Also you can, if needed, put this code in a loop and grow or shrink the buffer distance until a suitable number of candidate highways are found. First step is to project the points and the road segments to a suitable coordinate reference system (for Manchester, the UK Ordnance Survay EPSG: 27700 is a good choice), apply a 50m buffer to the points, then identify which road segments intersect with this buffer.
 
 ```{r}
-df.sf.tf <- st_transform(df.sf, 27700) # US National Atlas Equal Area projection
+df.sf.tf <- st_transform(df.sf, 27700) # OSGB 1936 British National Grid CRS
 road.lines.tf <- st_transform(road.lines, 27700)
 buffer.size <- 50
 df.sf.tf.bf <- st_buffer(df.sf.tf, buffer.size)
