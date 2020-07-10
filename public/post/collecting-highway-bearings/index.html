@@ -27,7 +27,7 @@
   
     
   
-  <meta name="description" content="What direction is this road going? I’m kicking off this blog with a geospatial example. I did some work recently where I needed to know:">
+  <meta name="description" content="Given a point, what highway is it on and what direction does that highway go? I’m kicking off this blog with a geospatial example.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/collecting-highway-bearings/">
@@ -235,7 +235,7 @@
   <meta property="og:site_name" content="Dave&#39;s data science">
   <meta property="og:url" content="/post/collecting-highway-bearings/">
   <meta property="og:title" content="Collecting Highway Bearings | Dave&#39;s data science">
-  <meta property="og:description" content="What direction is this road going? I’m kicking off this blog with a geospatial example. I did some work recently where I needed to know:"><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="og:description" content="Given a point, what highway is it on and what direction does that highway go? I’m kicking off this blog with a geospatial example."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
@@ -285,7 +285,7 @@
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": "What direction is this road going? I’m kicking off this blog with a geospatial example. I did some work recently where I needed to know:"
+  "description": "Given a point, what highway is it on and what direction does that highway go? I’m kicking off this blog with a geospatial example."
 }
 </script>
 
@@ -551,29 +551,24 @@
 <script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
 
 
-<div id="what-direction-is-this-road-going" class="section level3">
-<h3>What direction is this road going?</h3>
+<div id="given-a-point-what-highway-is-it-on-and-what-direction-does-that-highway-go" class="section level3">
+<h3>Given a point, what highway is it on and what direction does that highway go?</h3>
 <p>I’m kicking off this blog with a geospatial example. I did some work recently where I needed to know:</p>
 <ul>
-<li>the nearest section of road to a given point; and,</li>
-<li>the road’s approximate bearing.</li>
+<li>the nearest section of highway to a given point; and,</li>
+<li>the highways’s approximate bearing.</li>
 </ul>
-<p>It’s a long story why this was needed but getting there involved some useful discoveries so I’m repeating the crux of it here. Interestingly, shortly after writing the scripts, I came across <a href="https://geoffboeing.com/2018/07/comparing-city-street-orientations/">Geoff Boeing’s beautiful post</a> visualising similar information for 25 cities.</p>
+<p>I got this working pretty well and am repeating the crux of the solution here. As an aside, while I was doing this work I came across <a href="https://geoffboeing.com/2018/07/comparing-city-street-orientations/">Geoff Boeing’s beautiful post</a> visualising similar aggregate directional information for 25 cities - definitely worth a look.</p>
 <p>The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it’s nearest highway ‘way’ feature. Then get the coordinates of the beginning and end of the feature and use the pair of points to define a bearing. Makes sense? OK, here we go:</p>
 </div>
 <div id="get-the-packages" class="section level3">
 <h3>Get the packages</h3>
 <pre class="r"><code>library(geosphere)
 library(sf)
-## Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0
 library(leaflet)
 library(osmdata)
-## Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
 library(data.table)
-library(ggmap)
-## Loading required package: ggplot2
-## Google&#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.
-## Please cite ggmap if you use it! See citation(&quot;ggmap&quot;) for details.</code></pre>
+library(ggmap)</code></pre>
 </div>
 <div id="organise-the-data" class="section level3">
 <h3>Organise the data</h3>
@@ -606,9 +601,8 @@ m</code></pre>
 osm.road.types = c(&quot;motorway&quot;, &quot;motorway_link&quot;, &quot;trunk&quot;, &quot;trunk_link&quot;, &quot;primary&quot;, &quot;primary_link&quot;, &quot;secondary&quot;, 
                    &quot;secondary_link&quot;, &quot;tertiary&quot;, &quot;unclassified&quot;, &quot;residential&quot;)
 out &lt;- opq (this.bbox) %&gt;%
-            #add_osm_feature (key = &quot;highway&quot;, value = c(osm.road.types, paste0(osm.road.types, &quot;_link&quot;))) %&gt;%
-            osmdata::add_osm_feature (key = &quot;highway&quot;, value = osm.road.types) %&gt;%
-            osmdata::osmdata_sf(quiet = F)
+  add_osm_feature (key = &quot;highway&quot;, value = osm.road.types) %&gt;%
+  osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
 ## Rate limit: 2
 ## Query complete!
@@ -672,7 +666,7 @@ out$snap.lon &lt;- distances.vect[, &quot;lon&quot;]
 matching.road.lines.coords &lt;- data.table::as.data.table(st_coordinates(out))
 matching.road.lines.coords.begin &lt;- as.matrix(matching.road.lines.coords[, .SD[1, .(X, Y)], by = &quot;L1&quot;][, L1 := NULL])
 matching.road.lines.coords.end &lt;- as.matrix(matching.road.lines.coords[, .SD[.N, .(X, Y)], by = &quot;L1&quot;][, L1 := NULL])
-matching.road.lines.bearing &lt;- geosphere::bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
+matching.road.lines.bearing &lt;- bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
 out$bearing &lt;- (matching.road.lines.bearing + 360) %% 360
 out$bearing
 ## [1] 133.2409 316.6075 217.5574 258.1974</code></pre>
@@ -682,7 +676,13 @@ out$bearing
 <p>In order to visualise the estimated road bearing for my 4 points I need to add arrow endpoints information. Some trigonometry wil accomplish this (the 0.00025 value is determines the length of the direction arrow):</p>
 <pre class="r"><code>out$delta.x &lt;- sin((pi*out$bearing) / 180) * 0.00025
 out$delta.y &lt;- cos((pi*out$bearing) / 180) * 0.00025</code></pre>
-<p>Now I can plot the snapped locations and show an arrow indicating the highway bearing over a basemap for visual validation.</p>
+<p>Now I can plot the snapped locations <em>and</em> show an arrow indicating the highway bearing over a basemap which is not only pretty but allows for a quick visual validation.</p>
+<pre class="r"><code># A handcoded bounding box for tile retrieval. A function to make this would be a nice addition.
+n.quarter.bb &lt;- c(left = -2.236, bottom = 53.48, right = -2.23, top = 53.485)
+n.quarter &lt;- get_stamenmap(bbox = n.quarter.bb, zoom = 18, messaging = FALSE)
+ggmap(n.quarter) + 
+  geom_point(data = out, aes(x=snap.lon, y=snap.lat), colour = &quot;darkgreen&quot;, size = 4) +
+  geom_segment(data = out, aes(x=snap.lon, y=snap.lat, xend = snap.lon + delta.x, yend = snap.lat + delta.y), colour = &quot;darkgreen&quot;, arrow = arrow(length = unit(0.2,&quot;cm&quot;)))</code></pre>
 <p><img src="/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="summary" class="section level3">

@@ -26,19 +26,19 @@ projects: []
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
-### What direction is this road going?
+### Given a point, what highway is it on and what direction does that highway go?
 
 I'm kicking off this blog with a geospatial example. I did some work recently where I needed to know:
 
-* the nearest section of road to a given point; and,
-* the road's approximate bearing.
+* the nearest section of highway to a given point; and,
+* the highways's approximate bearing.
 
-It's a long story why this was needed but getting there involved some useful discoveries so I'm repeating the crux of it here. Interestingly, shortly after writing the scripts, I came across [Geoff Boeing's beautiful post](https://geoffboeing.com/2018/07/comparing-city-street-orientations/) visualising similar information for 25 cities. 
+I got this working pretty well and am repeating the crux of the solution here. As an aside, while I was doing this work I came across [Geoff Boeing's beautiful post](https://geoffboeing.com/2018/07/comparing-city-street-orientations/) visualising similar aggregate directional information for 25 cities - definitely worth a look. 
 
 The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it's nearest highway 'way' feature. Then get the coordinates of the beginning and end of the feature and use the pair of points to define a bearing. Makes sense? OK, here we go:
 
 ### Get the packages
-```{r}
+```{r message=FALSE}
 library(geosphere)
 library(sf)
 library(leaflet)
@@ -85,9 +85,8 @@ this.bbox <- st_bbox(df.sf)
 osm.road.types = c("motorway", "motorway_link", "trunk", "trunk_link", "primary", "primary_link", "secondary", 
                    "secondary_link", "tertiary", "unclassified", "residential")
 out <- opq (this.bbox) %>%
-            #add_osm_feature (key = "highway", value = c(osm.road.types, paste0(osm.road.types, "_link"))) %>%
-            osmdata::add_osm_feature (key = "highway", value = osm.road.types) %>%
-            osmdata::osmdata_sf(quiet = F)
+  add_osm_feature (key = "highway", value = osm.road.types) %>%
+  osmdata_sf(quiet = F)
 out
 road.lines <- out$osm_lines
 nrow(road.lines)
@@ -138,7 +137,7 @@ out$snap.lon <- distances.vect[, "lon"]
 matching.road.lines.coords <- data.table::as.data.table(st_coordinates(out))
 matching.road.lines.coords.begin <- as.matrix(matching.road.lines.coords[, .SD[1, .(X, Y)], by = "L1"][, L1 := NULL])
 matching.road.lines.coords.end <- as.matrix(matching.road.lines.coords[, .SD[.N, .(X, Y)], by = "L1"][, L1 := NULL])
-matching.road.lines.bearing <- geosphere::bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
+matching.road.lines.bearing <- bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
 out$bearing <- (matching.road.lines.bearing + 360) %% 360
 out$bearing
 ```
@@ -150,9 +149,10 @@ out$delta.x <- sin((pi*out$bearing) / 180) * 0.00025
 out$delta.y <- cos((pi*out$bearing) / 180) * 0.00025
 ```
 
-Now I can plot the snapped locations and show an arrow indicating the highway bearing over a basemap for visual validation.
+Now I can plot the snapped locations *and* show an arrow indicating the highway bearing over a basemap which is not only pretty but allows for a quick visual validation.
 
-```{r echo = FALSE, message = FALSE, warning = FALSE}
+```{r message = FALSE, warning = FALSE}
+# A handcoded bounding box for tile retrieval. A function to make this would be a nice addition.
 n.quarter.bb <- c(left = -2.236, bottom = 53.48, right = -2.23, top = 53.485)
 n.quarter <- get_stamenmap(bbox = n.quarter.bb, zoom = 18, messaging = FALSE)
 ggmap(n.quarter) + 

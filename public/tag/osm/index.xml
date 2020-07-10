@@ -29,29 +29,24 @@
 &lt;script src=&#34;/rmarkdown-libs/leaflet-binding/leaflet.js&#34;&gt;&lt;/script&gt;
 
 
-&lt;div id=&#34;what-direction-is-this-road-going&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;What direction is this road going?&lt;/h3&gt;
+&lt;div id=&#34;given-a-point-what-highway-is-it-on-and-what-direction-does-that-highway-go&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Given a point, what highway is it on and what direction does that highway go?&lt;/h3&gt;
 &lt;p&gt;I’m kicking off this blog with a geospatial example. I did some work recently where I needed to know:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;the nearest section of road to a given point; and,&lt;/li&gt;
-&lt;li&gt;the road’s approximate bearing.&lt;/li&gt;
+&lt;li&gt;the nearest section of highway to a given point; and,&lt;/li&gt;
+&lt;li&gt;the highways’s approximate bearing.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;It’s a long story why this was needed but getting there involved some useful discoveries so I’m repeating the crux of it here. Interestingly, shortly after writing the scripts, I came across &lt;a href=&#34;https://geoffboeing.com/2018/07/comparing-city-street-orientations/&#34;&gt;Geoff Boeing’s beautiful post&lt;/a&gt; visualising similar information for 25 cities.&lt;/p&gt;
+&lt;p&gt;I got this working pretty well and am repeating the crux of the solution here. As an aside, while I was doing this work I came across &lt;a href=&#34;https://geoffboeing.com/2018/07/comparing-city-street-orientations/&#34;&gt;Geoff Boeing’s beautiful post&lt;/a&gt; visualising similar aggregate directional information for 25 cities - definitely worth a look.&lt;/p&gt;
 &lt;p&gt;The best approach I could think of was to use OpenStreetMap data. Firstly associate a point with it’s nearest highway ‘way’ feature. Then get the coordinates of the beginning and end of the feature and use the pair of points to define a bearing. Makes sense? OK, here we go:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-the-packages&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get the packages&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(geosphere)
 library(sf)
-## Linking to GEOS 3.7.2, GDAL 2.4.2, PROJ 5.2.0
 library(leaflet)
 library(osmdata)
-## Data (c) OpenStreetMap contributors, ODbL 1.0. https://www.openstreetmap.org/copyright
 library(data.table)
-library(ggmap)
-## Loading required package: ggplot2
-## Google&amp;#39;s Terms of Service: https://cloud.google.com/maps-platform/terms/.
-## Please cite ggmap if you use it! See citation(&amp;quot;ggmap&amp;quot;) for details.&lt;/code&gt;&lt;/pre&gt;
+library(ggmap)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;organise-the-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Organise the data&lt;/h3&gt;
@@ -84,9 +79,8 @@ m&lt;/code&gt;&lt;/pre&gt;
 osm.road.types = c(&amp;quot;motorway&amp;quot;, &amp;quot;motorway_link&amp;quot;, &amp;quot;trunk&amp;quot;, &amp;quot;trunk_link&amp;quot;, &amp;quot;primary&amp;quot;, &amp;quot;primary_link&amp;quot;, &amp;quot;secondary&amp;quot;, 
                    &amp;quot;secondary_link&amp;quot;, &amp;quot;tertiary&amp;quot;, &amp;quot;unclassified&amp;quot;, &amp;quot;residential&amp;quot;)
 out &amp;lt;- opq (this.bbox) %&amp;gt;%
-            #add_osm_feature (key = &amp;quot;highway&amp;quot;, value = c(osm.road.types, paste0(osm.road.types, &amp;quot;_link&amp;quot;))) %&amp;gt;%
-            osmdata::add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
-            osmdata::osmdata_sf(quiet = F)
+  add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
+  osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
 ## Rate limit: 2
 ## Query complete!
@@ -150,7 +144,7 @@ out$snap.lon &amp;lt;- distances.vect[, &amp;quot;lon&amp;quot;]
 matching.road.lines.coords &amp;lt;- data.table::as.data.table(st_coordinates(out))
 matching.road.lines.coords.begin &amp;lt;- as.matrix(matching.road.lines.coords[, .SD[1, .(X, Y)], by = &amp;quot;L1&amp;quot;][, L1 := NULL])
 matching.road.lines.coords.end &amp;lt;- as.matrix(matching.road.lines.coords[, .SD[.N, .(X, Y)], by = &amp;quot;L1&amp;quot;][, L1 := NULL])
-matching.road.lines.bearing &amp;lt;- geosphere::bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
+matching.road.lines.bearing &amp;lt;- bearing(matching.road.lines.coords.begin, matching.road.lines.coords.end)
 out$bearing &amp;lt;- (matching.road.lines.bearing + 360) %% 360
 out$bearing
 ## [1] 133.2409 316.6075 217.5574 258.1974&lt;/code&gt;&lt;/pre&gt;
@@ -160,7 +154,13 @@ out$bearing
 &lt;p&gt;In order to visualise the estimated road bearing for my 4 points I need to add arrow endpoints information. Some trigonometry wil accomplish this (the 0.00025 value is determines the length of the direction arrow):&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;out$delta.x &amp;lt;- sin((pi*out$bearing) / 180) * 0.00025
 out$delta.y &amp;lt;- cos((pi*out$bearing) / 180) * 0.00025&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now I can plot the snapped locations and show an arrow indicating the highway bearing over a basemap for visual validation.&lt;/p&gt;
+&lt;p&gt;Now I can plot the snapped locations &lt;em&gt;and&lt;/em&gt; show an arrow indicating the highway bearing over a basemap which is not only pretty but allows for a quick visual validation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# A handcoded bounding box for tile retrieval. A function to make this would be a nice addition.
+n.quarter.bb &amp;lt;- c(left = -2.236, bottom = 53.48, right = -2.23, top = 53.485)
+n.quarter &amp;lt;- get_stamenmap(bbox = n.quarter.bb, zoom = 18, messaging = FALSE)
+ggmap(n.quarter) + 
+  geom_point(data = out, aes(x=snap.lon, y=snap.lat), colour = &amp;quot;darkgreen&amp;quot;, size = 4) +
+  geom_segment(data = out, aes(x=snap.lon, y=snap.lat, xend = snap.lon + delta.x, yend = snap.lat + delta.y), colour = &amp;quot;darkgreen&amp;quot;, arrow = arrow(length = unit(0.2,&amp;quot;cm&amp;quot;)))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
