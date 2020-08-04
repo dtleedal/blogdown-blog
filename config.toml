@@ -10,7 +10,7 @@ title = "Dave's data science"
 
 # The URL of your site.
 # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
-baseurl = "https:/davidleedal.com/"
+baseurl = "https://davidleedal.com/"
 
 # Enable comments by adding Disqus short name.
 disqusShortname = "davedatascience"

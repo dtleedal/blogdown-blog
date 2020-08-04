@@ -22,15 +22,15 @@ image:
 projects: []
 ---
 
-<script src="/https:/davidleedal.com/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
-<script src="/https:/davidleedal.com/rmarkdown-libs/jquery/jquery.min.js"></script>
-<link href="/https:/davidleedal.com/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
-<script src="/https:/davidleedal.com/rmarkdown-libs/leaflet/leaflet.js"></script>
-<link href="/https:/davidleedal.com/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
-<script src="/https:/davidleedal.com/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js"></script>
-<script src="/https:/davidleedal.com/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js"></script>
-<link href="/https:/davidleedal.com/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
-<script src="/https:/davidleedal.com/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet/leaflet.js"></script>
+<link href="/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js"></script>
+<script src="/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js"></script>
+<link href="/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
 
 
 <div id="given-a-point-what-highway-is-it-on-and-what-direction-does-that-highway-go" class="section level3">
@@ -86,7 +86,7 @@ out &lt;- opq (this.bbox) %&gt;%
   add_osm_feature (key = &quot;highway&quot;, value = osm.road.types) %&gt;%
   osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
-## Rate limit: 2
+## Rate limit: 0
 ## Query complete!
 ## converting OSM data to sf format
 out
@@ -165,7 +165,7 @@ n.quarter &lt;- get_stamenmap(bbox = n.quarter.bb, zoom = 18, messaging = FALSE)
 ggmap(n.quarter) + 
   geom_point(data = out, aes(x=snap.lon, y=snap.lat), colour = &quot;darkgreen&quot;, size = 4) +
   geom_segment(data = out, aes(x=snap.lon, y=snap.lat, xend = snap.lon + delta.x, yend = snap.lat + delta.y), colour = &quot;darkgreen&quot;, arrow = arrow(length = unit(0.2,&quot;cm&quot;)))</code></pre>
-<p><img src="/https:/davidleedal.com/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="summary" class="section level3">
 <h3>Summary</h3>
