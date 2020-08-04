@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R | Dave&#39;s data science</title>
-    <link>/tag/r/</link>
-      <atom:link href="/tag/r/index.xml" rel="self" type="application/rss+xml" />
+    <link>/https:/davidleedal.com/tag/r/</link>
+      <atom:link href="/https:/davidleedal.com/tag/r/index.xml" rel="self" type="application/rss+xml" />
     <description>R</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 06 Jul 2020 00:00:00 +0000</lastBuildDate>
     <image>
-      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <url>/https:/davidleedal.com/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>R</title>
-      <link>/tag/r/</link>
+      <link>/https:/davidleedal.com/tag/r/</link>
     </image>
     
     <item>
       <title>Collecting Highway Bearings</title>
-      <link>/post/collecting-highway-bearings/</link>
+      <link>/https:/davidleedal.com/post/collecting-highway-bearings/</link>
       <pubDate>Mon, 06 Jul 2020 00:00:00 +0000</pubDate>
-      <guid>/post/collecting-highway-bearings/</guid>
+      <guid>/https:/davidleedal.com/post/collecting-highway-bearings/</guid>
       <description>
-&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;/rmarkdown-libs/leaflet/leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;/rmarkdown-libs/leaflet/leaflet.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;/rmarkdown-libs/leafletfix/leafletfix.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js&#34;&gt;&lt;/script&gt;
-&lt;link href=&#34;/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
-&lt;script src=&#34;/rmarkdown-libs/leaflet-binding/leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/leaflet/leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/leaflet/leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/leafletfix/leafletfix.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/https:/davidleedal.com/https:/davidleedal.com/rmarkdown-libs/leaflet-binding/leaflet.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;div id=&#34;given-a-point-what-highway-is-it-on-and-what-direction-does-that-highway-go&#34; class=&#34;section level3&#34;&gt;
@@ -82,12 +82,11 @@ out &amp;lt;- opq (this.bbox) %&amp;gt;%
   add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
   osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
-## Request failed [502]. Retrying in 1.3 seconds...
-## Request failed [504]. Retrying in 2.7 seconds...
-## Request failed [500]. Retrying in 7 seconds...
-## Request failed [500]. Retrying in 1.3 seconds...
+## Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: overpass.kumi.systems
+## Request failed [ERROR]. Retrying in 1 seconds...
+## Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: overpass.kumi.systems
+## Request failed [ERROR]. Retrying in 2.7 seconds...
 ## Rate limit: 0
-## Request failed [504]. Retrying in 1 seconds...
 ## Query complete!
 ## converting OSM data to sf format
 out
@@ -95,14 +94,14 @@ out
 ##                  $bbox : 53.481176,-2.235675,53.48451,-2.232086
 ##         $overpass_call : The call submitted to the overpass API
 ##                  $meta : metadata including timestamp and version numbers
-##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 205 points
-##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 45 linestrings
+##            $osm_points : &amp;#39;sf&amp;#39; Simple Features Collection with 199 points
+##             $osm_lines : &amp;#39;sf&amp;#39; Simple Features Collection with 44 linestrings
 ##          $osm_polygons : &amp;#39;sf&amp;#39; Simple Features Collection with 0 polygons
 ##        $osm_multilines : NULL
 ##     $osm_multipolygons : NULL
 road.lines &amp;lt;- out$osm_lines
 nrow(road.lines)
-## [1] 45&lt;/code&gt;&lt;/pre&gt;
+## [1] 44&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-candidate-closest-roads-to-points&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Get candidate closest roads to points&lt;/h3&gt;
@@ -113,7 +112,7 @@ buffer.size &amp;lt;- 50
 df.sf.tf.bf &amp;lt;- st_buffer(df.sf.tf, buffer.size)
 intersected.items &amp;lt;- st_intersects(df.sf.tf.bf, road.lines.tf, sparse = F)
 dim(intersected.items)
-## [1]  4 45&lt;/code&gt;&lt;/pre&gt;
+## [1]  4 44&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The dimensions show I have 4 rows, one for each of the 4 points, and 44 columns, one for each OSM road segment within the bounding box. The matrix contains TRUE/FALSE values where TRUE indicates a point of intersection.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;get-the-closest-road-segment&#34; class=&#34;section level3&#34;&gt;
@@ -132,7 +131,7 @@ for (i in seq_len(number.of.point)) {
 }
 distances.vect
 ##      distance       lon      lat ID
-## [1,] 5.061288 -2.232137 53.48448 44
+## [1,] 5.061288 -2.232137 53.48448 43
 ## [2,] 3.500525 -2.235712 53.48430 10
 ## [3,] 6.111912 -2.233558 53.48407  5
 ## [4,] 5.541079 -2.232491 53.48122 19&lt;/code&gt;&lt;/pre&gt;
@@ -166,7 +165,7 @@ n.quarter &amp;lt;- get_stamenmap(bbox = n.quarter.bb, zoom = 18, messaging = FA
 ggmap(n.quarter) + 
   geom_point(data = out, aes(x=snap.lon, y=snap.lat), colour = &amp;quot;darkgreen&amp;quot;, size = 4) +
   geom_segment(data = out, aes(x=snap.lon, y=snap.lat, xend = snap.lon + delta.x, yend = snap.lat + delta.y), colour = &amp;quot;darkgreen&amp;quot;, arrow = arrow(length = unit(0.2,&amp;quot;cm&amp;quot;)))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/https:/davidleedal.com/https:/davidleedal.com/post/2020-07-06-collecting-highway-bearings_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
