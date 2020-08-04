@@ -604,11 +604,7 @@ out &lt;- opq (this.bbox) %&gt;%
   add_osm_feature (key = &quot;highway&quot;, value = osm.road.types) %&gt;%
   osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
-## Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: overpass.kumi.systems
-## Request failed [ERROR]. Retrying in 1 seconds...
-## Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: overpass.kumi.systems
-## Request failed [ERROR]. Retrying in 2.7 seconds...
-## Rate limit: 0
+## Rate limit: 2
 ## Query complete!
 ## converting OSM data to sf format
 out
@@ -695,6 +691,19 @@ ggmap(n.quarter) +
 </div>
 
     </div>
+    <div id="disqus_thread"></div>
+
+<script>
+  (function() {
+    var d = document, s = d.createElement{'script'};
+    s.src = 'https://davedatascience.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  Please enable JavaScript to view the <a href="https://disqus.com/? ref_noscript">comments powered by Disqus.</a>
+</noscript>
 
     
 
@@ -858,7 +867,7 @@ ggmap(n.quarter) +
     s.src = 'https://davedatascience.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
-  })()
+  })();
 </script>
 <noscript>
   Please enable JavaScript to view the <a href="https://disqus.com/? ref_noscript">comments powered by Disqus.</a>
@@ -876,20 +885,7 @@ ggmap(n.quarter) +
 
 
 
-    <div id="disqus_thread"></div>
-
-<script>
-  (function() {
-    var d = document, s = d.createElement{'script'};
-    s.src = 'https://davedatascience.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })()
-</script>
-<noscript>
-  Please enable JavaScript to view the <a href="https://disqus.com/? ref_noscript">comments powered by Disqus.</a>
-</noscript>
-
+    
 
   </div>
 </article>

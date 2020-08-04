@@ -82,11 +82,7 @@ out &amp;lt;- opq (this.bbox) %&amp;gt;%
   add_osm_feature (key = &amp;quot;highway&amp;quot;, value = osm.road.types) %&amp;gt;%
   osmdata_sf(quiet = F)
 ## Issuing query to Overpass API ...
-## Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: overpass.kumi.systems
-## Request failed [ERROR]. Retrying in 1 seconds...
-## Error in curl::curl_fetch_memory(url, handle = handle): Could not resolve host: overpass.kumi.systems
-## Request failed [ERROR]. Retrying in 2.7 seconds...
-## Rate limit: 0
+## Rate limit: 2
 ## Query complete!
 ## converting OSM data to sf format
 out
