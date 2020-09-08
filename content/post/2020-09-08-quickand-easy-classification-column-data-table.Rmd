@@ -64,9 +64,10 @@ random.dt[1:15, ]
 ```
 
 ### Add category
-So now we have some test data. There are many cases where it can be really useful to have a one or more categorical variable(s) for the rows. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I'm going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I'll show is to do this simply by having a common column name as we have here with `state`. If we have a common name we can `merge` using that name:
+That gives me my test data. There are many cases where it can be really useful to have one or more categorical variable(s) for the rows. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I'm going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I'll show is to do this simply by having a common column name as we have here with `state`. If we have a common name we can `merge` using that name:
 
 ```{r message=FALSE}
+## By specifying sort=FALSE common.name.dt will have the same row order as random.dt
 common.name.dt <- merge(random.dt, region.key, by = "state", sort=FALSE)
 ## Look at first 15 rows:
 common.name.dt[1:15, ]
@@ -80,7 +81,7 @@ common.name.dt[1:15, ]
 setkey(random.dt, "state")
 setkey(region.key, "state")
 ## Calling merge without specifying a column will default to merging using the columns defined as the key.
-common.name.dt.2 <- merge(random.dt, region.key, sort=FALSE)
+common.name.dt.2 <- merge(random.dt, region.key)
 ## top 15 rows:
 common.name.dt.2[1:15, ]
 ```
