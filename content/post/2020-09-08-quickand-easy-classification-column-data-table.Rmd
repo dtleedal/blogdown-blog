@@ -64,7 +64,7 @@ random.dt[1:15, ]
 ```
 
 ### Add category
-So now we have some test data. For many reasons I might want to add a column stating which region each state belongs to. For example I might want to colour code a plot, or perform grouping operations by region. So I'm going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I'll show is to do this simply by having a common column name as we have here with `state`. If we have a common name we can `merge` using that name:
+So now we have some test data. There are many cases where it can be really useful to have a one or more categorical variable(s) for the rows. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I'm going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I'll show is to do this simply by having a common column name as we have here with `state`. If we have a common name we can `merge` using that name:
 
 ```{r message=FALSE}
 common.name.dt <- merge(random.dt, region.key, by = "state", sort=FALSE)
