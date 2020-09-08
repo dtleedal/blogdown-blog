@@ -1,0 +1,101 @@
+---
+title: Quick and easy classification column (data.table)
+author: Dave Leedal
+date: '2020-09-08'
+slug: quick-and-easy-classification-column-data-table
+categories:
+  - R
+tags:
+  - data.table
+  - merge
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-09-08T12:44:00+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+### Quickly add higher-level classification column to data.
+
+A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column. This task is so common it's worth documenting here with an example. I'm a fan of `data.table` so I'll set up a simple example using that.
+
+### Get the package
+```{r message=FALSE}
+library(data.table)
+```
+
+I'm going to make a table with 1000,000 randomly chosen US states then add a region column specifying which of the 5 US region each state belongs to.
+This approach requires a key table. Here is such a table:
+
+```{r message=FALSE}
+## Assign states to region
+W <- data.table(region = "W", state = c("AK", "WA", "OR", "ID", "MT", "WY", "CA", "NV", "UT", "CO"))
+MW <- data.table(region = "MW", state = c("ND", "MN", "WI", "MI",  "SD", "NE", "KS", "IA", "MO", "IL", "IN", "OH"))
+NE <- data.table(region = "NE", state = c("NY", "PA", "MD", "VT", "ME", "NH", "MA", "RI", "CT", "NJ"))
+SE <- data.table(region = "SE", state = c("WV", "DE", "DC", "VA", "KY", "NC", "TN", "AR", "LA", "MS", "AL", "GA", "SC", "FL"))
+SW <- data.table(region = "SW", state = c("AZ", "NM", "OK", "TX", "HI"))
+```
+
+`data.table` has a useful row-binding command for combining a list of tables of the same column format into a single table:
+
+```{r message=FALSE}
+region.key <- rbindlist(list(W, MW, NE, SE, SW))
+## Let's look at a the first 15 rows:
+region.key[1:15, ]
+```
+
+### Make some test data
+When developing, making manageable test data is really important. Here I'm making 1000,000 example rows that represent the type of data you might encounter in the wild.
+
+```{r message=FALSE}
+## Make a large set of randomly chosen states and some other random content.
+random.dt <- data.table(state = sample(region.key$state, 1000000, replace = TRUE), other.info = sample(1:100, 1000000, replace = TRUE))
+## Look at the first 15 rows:
+random.dt[1:15, ]
+```
+
+### Add category
+So now we have some test data. For many reasons I might want to add a column stating which region each state belongs to. For example I might want to colour code a plot, or perform grouping operations by region. So I'm going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I'll show is to do this simply by having a common column name as we have here with `state`. If we have a common name we can `merge` using that name:
+
+```{r message=FALSE}
+common.name.dt <- merge(random.dt, region.key, by = "state", sort=FALSE)
+## Look at first 15 rows:
+common.name.dt[1:15, ]
+
+## success!
+```
+
+`data.table` has a very sophisticated key hashing system whereby one or more columns can be specified as the key column(s), these get hashed so that subsequent sorting, searching and merging operations are extremely fast. For an example like this, the difference is not really noticeable, but it's a good skill to have so here goes:
+
+```{r message=FALSE}
+setkey(random.dt, "state")
+setkey(region.key, "state")
+## Calling merge without specifying a column will default to merging using the columns defined as the key.
+common.name.dt.2 <- merge(random.dt, region.key, sort=FALSE)
+## top 15 rows:
+common.name.dt.2[1:15, ]
+```
+
+It's important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I'd wanted to column-bind tables and had forgotten setkey changed the order or rows. I'd suggest always using a reference column and merging tables rather than using column-binding unless you're confident about the row order.
+
+### Using the category
+It's worth showing a quick example of using the new category column: a group operation. I'll show the mean of the `other.info` column grouped by region.
+
+```{r message=FALSE}
+region.means <- common.name.dt.2[, mean(other.info), by = "region"]
+## Change the default returned column name from V1 to mean.value
+setnames(region.means, old = "V1", new = "mean.value")
+region.means[]
+```
+
+### Summary
+There are so many times when I need to assign rows to a higher category. Best way is to keep it simple, make a key table, then merge the two tables. Once you have one or more columns of categories it's very easy to perform sophisticated pivot-type operations on groups of rows.

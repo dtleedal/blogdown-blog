@@ -1,0 +1,151 @@
+---
+title: Quick and easy classification column (data.table)
+author: Dave Leedal
+date: '2020-09-08'
+slug: quick-and-easy-classification-column-data-table
+categories:
+  - R
+tags:
+  - data.table
+  - merge
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-09-08T12:44:00+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<div id="quickly-add-higher-level-classification-column-to-data." class="section level3">
+<h3>Quickly add higher-level classification column to data.</h3>
+<p>A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column. This task is so common it’s worth documenting here with an example. I’m a fan of <code>data.table</code> so I’ll set up a simple example using that.</p>
+</div>
+<div id="get-the-package" class="section level3">
+<h3>Get the package</h3>
+<pre class="r"><code>library(data.table)</code></pre>
+<p>I’m going to make a table with 1000,000 randomly chosen US states then add a region column specifying which of the 5 US region each state belongs to.
+This approach requires a key table. Here is such a table:</p>
+<pre class="r"><code>## Assign states to region
+W &lt;- data.table(region = &quot;W&quot;, state = c(&quot;AK&quot;, &quot;WA&quot;, &quot;OR&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;NV&quot;, &quot;UT&quot;, &quot;CO&quot;))
+MW &lt;- data.table(region = &quot;MW&quot;, state = c(&quot;ND&quot;, &quot;MN&quot;, &quot;WI&quot;, &quot;MI&quot;,  &quot;SD&quot;, &quot;NE&quot;, &quot;KS&quot;, &quot;IA&quot;, &quot;MO&quot;, &quot;IL&quot;, &quot;IN&quot;, &quot;OH&quot;))
+NE &lt;- data.table(region = &quot;NE&quot;, state = c(&quot;NY&quot;, &quot;PA&quot;, &quot;MD&quot;, &quot;VT&quot;, &quot;ME&quot;, &quot;NH&quot;, &quot;MA&quot;, &quot;RI&quot;, &quot;CT&quot;, &quot;NJ&quot;))
+SE &lt;- data.table(region = &quot;SE&quot;, state = c(&quot;WV&quot;, &quot;DE&quot;, &quot;DC&quot;, &quot;VA&quot;, &quot;KY&quot;, &quot;NC&quot;, &quot;TN&quot;, &quot;AR&quot;, &quot;LA&quot;, &quot;MS&quot;, &quot;AL&quot;, &quot;GA&quot;, &quot;SC&quot;, &quot;FL&quot;))
+SW &lt;- data.table(region = &quot;SW&quot;, state = c(&quot;AZ&quot;, &quot;NM&quot;, &quot;OK&quot;, &quot;TX&quot;, &quot;HI&quot;))</code></pre>
+<p><code>data.table</code> has a useful row-binding command for combining a list of tables of the same column format into a single table:</p>
+<pre class="r"><code>region.key &lt;- rbindlist(list(W, MW, NE, SE, SW))
+## Let&#39;s look at a the first 15 rows:
+region.key[1:15, ]
+##     region state
+##  1:      W    AK
+##  2:      W    WA
+##  3:      W    OR
+##  4:      W    ID
+##  5:      W    MT
+##  6:      W    WY
+##  7:      W    CA
+##  8:      W    NV
+##  9:      W    UT
+## 10:      W    CO
+## 11:     MW    ND
+## 12:     MW    MN
+## 13:     MW    WI
+## 14:     MW    MI
+## 15:     MW    SD</code></pre>
+</div>
+<div id="make-some-test-data" class="section level3">
+<h3>Make some test data</h3>
+<p>When developing, making manageable test data is really important. Here I’m making 1000,000 example rows that represent the type of data you might encounter in the wild.</p>
+<pre class="r"><code>## Make a large set of randomly chosen states and some other random content.
+random.dt &lt;- data.table(state = sample(region.key$state, 1000000, replace = TRUE), other.info = sample(1:100, 1000000, replace = TRUE))
+## Look at the first 15 rows:
+random.dt[1:15, ]
+##     state other.info
+##  1:    NH         57
+##  2:    MA         19
+##  3:    CO          9
+##  4:    DC         67
+##  5:    NV          1
+##  6:    GA         19
+##  7:    NC         55
+##  8:    PA          7
+##  9:    IL         21
+## 10:    VA         16
+## 11:    VT         77
+## 12:    AL         52
+## 13:    WY         97
+## 14:    VA         94
+## 15:    PA         35</code></pre>
+</div>
+<div id="add-category" class="section level3">
+<h3>Add category</h3>
+<p>So now we have some test data. For many reasons I might want to add a column stating which region each state belongs to. For example I might want to colour code a plot, or perform grouping operations by region. So I’m going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I’ll show is to do this simply by having a common column name as we have here with <code>state</code>. If we have a common name we can <code>merge</code> using that name:</p>
+<pre class="r"><code>common.name.dt &lt;- merge(random.dt, region.key, by = &quot;state&quot;, sort=FALSE)
+## Look at first 15 rows:
+common.name.dt[1:15, ]
+##     state other.info region
+##  1:    NH         57     NE
+##  2:    MA         19     NE
+##  3:    CO          9      W
+##  4:    DC         67     SE
+##  5:    NV          1      W
+##  6:    GA         19     SE
+##  7:    NC         55     SE
+##  8:    PA          7     NE
+##  9:    IL         21     MW
+## 10:    VA         16     SE
+## 11:    VT         77     NE
+## 12:    AL         52     SE
+## 13:    WY         97      W
+## 14:    VA         94     SE
+## 15:    PA         35     NE
+
+## success!</code></pre>
+<p><code>data.table</code> has a very sophisticated key hashing system whereby one or more columns can be specified as the key column(s), these get hashed so that subsequent sorting, searching and merging operations are extremely fast. For an example like this, the difference is not really noticeable, but it’s a good skill to have so here goes:</p>
+<pre class="r"><code>setkey(random.dt, &quot;state&quot;)
+setkey(region.key, &quot;state&quot;)
+## Calling merge without specifying a column will default to merging using the columns defined as the key.
+common.name.dt.2 &lt;- merge(random.dt, region.key, sort=FALSE)
+## top 15 rows:
+common.name.dt.2[1:15, ]
+##     state other.info region
+##  1:    AK         83      W
+##  2:    AK         77      W
+##  3:    AK         39      W
+##  4:    AK         92      W
+##  5:    AK         51      W
+##  6:    AK         94      W
+##  7:    AK          2      W
+##  8:    AK         36      W
+##  9:    AK         65      W
+## 10:    AK         36      W
+## 11:    AK         46      W
+## 12:    AK         50      W
+## 13:    AK         70      W
+## 14:    AK         34      W
+## 15:    AK         40      W</code></pre>
+<p>It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten setkey changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.</p>
+</div>
+<div id="using-the-category" class="section level3">
+<h3>Using the category</h3>
+<p>It’s worth showing a quick example of using the new category column: a group operation. I’ll show the mean of the <code>other.info</code> column grouped by region.</p>
+<pre class="r"><code>region.means &lt;- common.name.dt.2[, mean(other.info), by = &quot;region&quot;]
+## Change the default returned column name from V1 to mean.value
+setnames(region.means, old = &quot;V1&quot;, new = &quot;mean.value&quot;)
+region.means[]
+##    region mean.value
+## 1:      W   50.52804
+## 2:     SE   50.60265
+## 3:     SW   50.58154
+## 4:     NE   50.55172
+## 5:     MW   50.50551</code></pre>
+</div>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<p>There are so many times when I need to assign rows to a higher category. Best way is to keep it simple, make a key table, then merge the two tables. Once you have one or more columns of categories it’s very easy to perform sophisticated pivot-type operations on groups of rows.</p>
+</div>

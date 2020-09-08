@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data.table | Dave&#39;s data science</title>
+    <link>/tag/data.table/</link>
+      <atom:link href="/tag/data.table/index.xml" rel="self" type="application/rss+xml" />
+    <description>data.table</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 08 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>data.table</title>
+      <link>/tag/data.table/</link>
+    </image>
+    
+    <item>
+      <title>Quick and easy classification column (data.table)</title>
+      <link>/post/quick-and-easy-classification-column-data-table/</link>
+      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
+      <guid>/post/quick-and-easy-classification-column-data-table/</guid>
+      <description>
+
+
+&lt;div id=&#34;quickly-add-higher-level-classification-column-to-data.&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Quickly add higher-level classification column to data.&lt;/h3&gt;
+&lt;p&gt;A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column. This task is so common it’s worth documenting here with an example. I’m a fan of &lt;code&gt;data.table&lt;/code&gt; so I’ll set up a simple example using that.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;get-the-package&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Get the package&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(data.table)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’m going to make a table with 1000,000 randomly chosen US states then add a region column specifying which of the 5 US region each state belongs to.
+This approach requires a key table. Here is such a table:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Assign states to region
+W &amp;lt;- data.table(region = &amp;quot;W&amp;quot;, state = c(&amp;quot;AK&amp;quot;, &amp;quot;WA&amp;quot;, &amp;quot;OR&amp;quot;, &amp;quot;ID&amp;quot;, &amp;quot;MT&amp;quot;, &amp;quot;WY&amp;quot;, &amp;quot;CA&amp;quot;, &amp;quot;NV&amp;quot;, &amp;quot;UT&amp;quot;, &amp;quot;CO&amp;quot;))
+MW &amp;lt;- data.table(region = &amp;quot;MW&amp;quot;, state = c(&amp;quot;ND&amp;quot;, &amp;quot;MN&amp;quot;, &amp;quot;WI&amp;quot;, &amp;quot;MI&amp;quot;,  &amp;quot;SD&amp;quot;, &amp;quot;NE&amp;quot;, &amp;quot;KS&amp;quot;, &amp;quot;IA&amp;quot;, &amp;quot;MO&amp;quot;, &amp;quot;IL&amp;quot;, &amp;quot;IN&amp;quot;, &amp;quot;OH&amp;quot;))
+NE &amp;lt;- data.table(region = &amp;quot;NE&amp;quot;, state = c(&amp;quot;NY&amp;quot;, &amp;quot;PA&amp;quot;, &amp;quot;MD&amp;quot;, &amp;quot;VT&amp;quot;, &amp;quot;ME&amp;quot;, &amp;quot;NH&amp;quot;, &amp;quot;MA&amp;quot;, &amp;quot;RI&amp;quot;, &amp;quot;CT&amp;quot;, &amp;quot;NJ&amp;quot;))
+SE &amp;lt;- data.table(region = &amp;quot;SE&amp;quot;, state = c(&amp;quot;WV&amp;quot;, &amp;quot;DE&amp;quot;, &amp;quot;DC&amp;quot;, &amp;quot;VA&amp;quot;, &amp;quot;KY&amp;quot;, &amp;quot;NC&amp;quot;, &amp;quot;TN&amp;quot;, &amp;quot;AR&amp;quot;, &amp;quot;LA&amp;quot;, &amp;quot;MS&amp;quot;, &amp;quot;AL&amp;quot;, &amp;quot;GA&amp;quot;, &amp;quot;SC&amp;quot;, &amp;quot;FL&amp;quot;))
+SW &amp;lt;- data.table(region = &amp;quot;SW&amp;quot;, state = c(&amp;quot;AZ&amp;quot;, &amp;quot;NM&amp;quot;, &amp;quot;OK&amp;quot;, &amp;quot;TX&amp;quot;, &amp;quot;HI&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;data.table&lt;/code&gt; has a useful row-binding command for combining a list of tables of the same column format into a single table:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;region.key &amp;lt;- rbindlist(list(W, MW, NE, SE, SW))
+## Let&amp;#39;s look at a the first 15 rows:
+region.key[1:15, ]
+##     region state
+##  1:      W    AK
+##  2:      W    WA
+##  3:      W    OR
+##  4:      W    ID
+##  5:      W    MT
+##  6:      W    WY
+##  7:      W    CA
+##  8:      W    NV
+##  9:      W    UT
+## 10:      W    CO
+## 11:     MW    ND
+## 12:     MW    MN
+## 13:     MW    WI
+## 14:     MW    MI
+## 15:     MW    SD&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;make-some-test-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Make some test data&lt;/h3&gt;
+&lt;p&gt;When developing, making manageable test data is really important. Here I’m making 1000,000 example rows that represent the type of data you might encounter in the wild.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Make a large set of randomly chosen states and some other random content.
+random.dt &amp;lt;- data.table(state = sample(region.key$state, 1000000, replace = TRUE), other.info = sample(1:100, 1000000, replace = TRUE))
+## Look at the first 15 rows:
+random.dt[1:15, ]
+##     state other.info
+##  1:    NH         57
+##  2:    MA         19
+##  3:    CO          9
+##  4:    DC         67
+##  5:    NV          1
+##  6:    GA         19
+##  7:    NC         55
+##  8:    PA          7
+##  9:    IL         21
+## 10:    VA         16
+## 11:    VT         77
+## 12:    AL         52
+## 13:    WY         97
+## 14:    VA         94
+## 15:    PA         35&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;add-category&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Add category&lt;/h3&gt;
+&lt;p&gt;So now we have some test data. For many reasons I might want to add a column stating which region each state belongs to. For example I might want to colour code a plot, or perform grouping operations by region. So I’m going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I’ll show is to do this simply by having a common column name as we have here with &lt;code&gt;state&lt;/code&gt;. If we have a common name we can &lt;code&gt;merge&lt;/code&gt; using that name:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;common.name.dt &amp;lt;- merge(random.dt, region.key, by = &amp;quot;state&amp;quot;, sort=FALSE)
+## Look at first 15 rows:
+common.name.dt[1:15, ]
+##     state other.info region
+##  1:    NH         57     NE
+##  2:    MA         19     NE
+##  3:    CO          9      W
+##  4:    DC         67     SE
+##  5:    NV          1      W
+##  6:    GA         19     SE
+##  7:    NC         55     SE
+##  8:    PA          7     NE
+##  9:    IL         21     MW
+## 10:    VA         16     SE
+## 11:    VT         77     NE
+## 12:    AL         52     SE
+## 13:    WY         97      W
+## 14:    VA         94     SE
+## 15:    PA         35     NE
+
+## success!&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;data.table&lt;/code&gt; has a very sophisticated key hashing system whereby one or more columns can be specified as the key column(s), these get hashed so that subsequent sorting, searching and merging operations are extremely fast. For an example like this, the difference is not really noticeable, but it’s a good skill to have so here goes:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;setkey(random.dt, &amp;quot;state&amp;quot;)
+setkey(region.key, &amp;quot;state&amp;quot;)
+## Calling merge without specifying a column will default to merging using the columns defined as the key.
+common.name.dt.2 &amp;lt;- merge(random.dt, region.key, sort=FALSE)
+## top 15 rows:
+common.name.dt.2[1:15, ]
+##     state other.info region
+##  1:    AK         83      W
+##  2:    AK         77      W
+##  3:    AK         39      W
+##  4:    AK         92      W
+##  5:    AK         51      W
+##  6:    AK         94      W
+##  7:    AK          2      W
+##  8:    AK         36      W
+##  9:    AK         65      W
+## 10:    AK         36      W
+## 11:    AK         46      W
+## 12:    AK         50      W
+## 13:    AK         70      W
+## 14:    AK         34      W
+## 15:    AK         40      W&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten setkey changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;using-the-category&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Using the category&lt;/h3&gt;
+&lt;p&gt;It’s worth showing a quick example of using the new category column: a group operation. I’ll show the mean of the &lt;code&gt;other.info&lt;/code&gt; column grouped by region.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;region.means &amp;lt;- common.name.dt.2[, mean(other.info), by = &amp;quot;region&amp;quot;]
+## Change the default returned column name from V1 to mean.value
+setnames(region.means, old = &amp;quot;V1&amp;quot;, new = &amp;quot;mean.value&amp;quot;)
+region.means[]
+##    region mean.value
+## 1:      W   50.52804
+## 2:     SE   50.60265
+## 3:     SW   50.58154
+## 4:     NE   50.55172
+## 5:     MW   50.50551&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;There are so many times when I need to assign rows to a higher category. Best way is to keep it simple, make a key table, then merge the two tables. Once you have one or more columns of categories it’s very easy to perform sophisticated pivot-type operations on groups of rows.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
