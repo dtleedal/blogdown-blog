@@ -27,10 +27,10 @@
   
     
   
-  <meta name="description" content="Quickly add higher-level classification column to data. A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column.">
+  <meta name="description" content="Get the packages library(sf) library(dplyr) Spatial features from first principles Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s sp and raster librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases).">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/quick-and-easy-classification-column-data-table/">
+  <link rel="alternate" hreflang="en-us" href="/post/spatial-features-the-fundamentals/">
 
   
 
@@ -217,7 +217,7 @@
   <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="/post/quick-and-easy-classification-column-data-table/">
+  <link rel="canonical" href="/post/spatial-features-the-fundamentals/">
 
   
   
@@ -233,15 +233,15 @@
   <meta property="twitter:card" content="summary">
   
   <meta property="og:site_name" content="Dave&#39;s data science">
-  <meta property="og:url" content="/post/quick-and-easy-classification-column-data-table/">
-  <meta property="og:title" content="Quick and easy classification column (data.table) | Dave&#39;s data science">
-  <meta property="og:description" content="Quickly add higher-level classification column to data. A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="og:url" content="/post/spatial-features-the-fundamentals/">
+  <meta property="og:title" content="spatial features - the fundamentals | Dave&#39;s data science">
+  <meta property="og:description" content="Get the packages library(sf) library(dplyr) Spatial features from first principles Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s sp and raster librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases)."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2020-09-08T00:00:00&#43;00:00">
+      <meta property="article:published_time" content="2020-09-09T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2020-09-08T12:44:00&#43;01:00">
+    <meta property="article:modified_time" content="2020-09-09T15:02:56&#43;01:00">
   
 
   
@@ -265,12 +265,12 @@
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/post/quick-and-easy-classification-column-data-table/"
+    "@id": "/post/spatial-features-the-fundamentals/"
   },
-  "headline": "Quick and easy classification column (data.table)",
+  "headline": "spatial features - the fundamentals",
   
-  "datePublished": "2020-09-08T00:00:00Z",
-  "dateModified": "2020-09-08T12:44:00+01:00",
+  "datePublished": "2020-09-09T00:00:00Z",
+  "dateModified": "2020-09-09T15:02:56+01:00",
   
   "author": {
     "@type": "Person",
@@ -285,7 +285,7 @@
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": "Quickly add higher-level classification column to data. A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column."
+  "description": "Get the packages library(sf) library(dplyr) Spatial features from first principles Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s sp and raster librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases)."
 }
 </script>
 
@@ -303,7 +303,7 @@
 
 
 
-  <title>Quick and easy classification column (data.table) | Dave&#39;s data science</title>
+  <title>spatial features - the fundamentals | Dave&#39;s data science</title>
 
 </head>
 
@@ -469,7 +469,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Quick and easy classification column (data.table)</h1>
+  <h1>spatial features - the fundamentals</h1>
 
   
 
@@ -490,7 +490,7 @@
           Last updated on
       
     
-    Sep 8, 2020
+    Sep 9, 2020
   </span>
   
 
@@ -507,14 +507,14 @@
   
   
   <span class="middot-divider"></span>
-  <a href="/post/quick-and-easy-classification-column-data-table/#disqus_thread"></a>
+  <a href="/post/spatial-features-the-fundamentals/#disqus_thread"></a>
   
 
   
   
   <span class="middot-divider"></span>
   <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a></span>
+    <i class="fas fa-folder mr-1"></i><a href="/category/geospatial/">geospatial</a>, <a href="/category/r/">R</a></span>
   
 
 </div>
@@ -545,134 +545,168 @@
       
 
 
-<div id="quickly-add-higher-level-classification-column-to-data." class="section level3">
-<h3>Quickly add higher-level classification column to data.</h3>
-<p>A very common use-case is to add a column to a table of data that indicates a category for each row where the category is dependent on the value of one of the table column. This task is so common it’s worth documenting here with an example. I’m a fan of <code>data.table</code> so I’ll set up a simple example using that.</p>
+<div id="get-the-packages" class="section level2">
+<h2>Get the packages</h2>
+<pre class="r"><code>library(sf)
+library(dplyr)</code></pre>
+<div id="spatial-features-from-first-principles" class="section level3">
+<h3>Spatial features from first principles</h3>
+<p>Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s <code>sp</code> and <code>raster</code> librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry’s page helped with this, <a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">you can find it here</a>.</p>
+<p>I wanted to make something similar for the <code>sf</code> package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although <code>sp</code> will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of <code>sf</code> and geospatial programming in R see the free book by Lovelace et al.:<a href="https://geocompr.robinlovelace.net/">https://geocompr.robinlovelace.net/</a></p>
 </div>
-<div id="get-the-package" class="section level3">
-<h3>Get the package</h3>
-<pre class="r"><code>library(data.table)</code></pre>
-<p>I’m going to make a table with 1000,000 randomly chosen US states then add a region column specifying which of the 5 US region each state belongs to.
-This approach requires a key table. Here is such a table:</p>
-<pre class="r"><code>## Assign states to region
-W &lt;- data.table(region = &quot;W&quot;, state = c(&quot;AK&quot;, &quot;WA&quot;, &quot;OR&quot;, &quot;ID&quot;, &quot;MT&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;NV&quot;, &quot;UT&quot;, &quot;CO&quot;))
-MW &lt;- data.table(region = &quot;MW&quot;, state = c(&quot;ND&quot;, &quot;MN&quot;, &quot;WI&quot;, &quot;MI&quot;,  &quot;SD&quot;, &quot;NE&quot;, &quot;KS&quot;, &quot;IA&quot;, &quot;MO&quot;, &quot;IL&quot;, &quot;IN&quot;, &quot;OH&quot;))
-NE &lt;- data.table(region = &quot;NE&quot;, state = c(&quot;NY&quot;, &quot;PA&quot;, &quot;MD&quot;, &quot;VT&quot;, &quot;ME&quot;, &quot;NH&quot;, &quot;MA&quot;, &quot;RI&quot;, &quot;CT&quot;, &quot;NJ&quot;))
-SE &lt;- data.table(region = &quot;SE&quot;, state = c(&quot;WV&quot;, &quot;DE&quot;, &quot;DC&quot;, &quot;VA&quot;, &quot;KY&quot;, &quot;NC&quot;, &quot;TN&quot;, &quot;AR&quot;, &quot;LA&quot;, &quot;MS&quot;, &quot;AL&quot;, &quot;GA&quot;, &quot;SC&quot;, &quot;FL&quot;))
-SW &lt;- data.table(region = &quot;SW&quot;, state = c(&quot;AZ&quot;, &quot;NM&quot;, &quot;OK&quot;, &quot;TX&quot;, &quot;HI&quot;))</code></pre>
-<p><code>data.table</code> has a useful row-binding command for combining a list of tables of the same column format into a single table:</p>
-<pre class="r"><code>region.key &lt;- rbindlist(list(W, MW, NE, SE, SW))
-## Let&#39;s look at a the first 15 rows:
-region.key[1:15, ]
-##     region state
-##  1:      W    AK
-##  2:      W    WA
-##  3:      W    OR
-##  4:      W    ID
-##  5:      W    MT
-##  6:      W    WY
-##  7:      W    CA
-##  8:      W    NV
-##  9:      W    UT
-## 10:      W    CO
-## 11:     MW    ND
-## 12:     MW    MN
-## 13:     MW    WI
-## 14:     MW    MI
-## 15:     MW    SD</code></pre>
+<div id="making-a-single-point" class="section level3">
+<h3>Making a single point</h3>
+<p>All functions operating on spatial data in the <code>sf</code> package begin with <code>st_</code> which stands for spatial type. Starting with the simplest spatial type: a single point, I specify a two element vector where the two values are the X and Y coordinates of the point.</p>
+<pre class="r"><code>single.point &lt;- c(10, -2)
+single.point.st &lt;- st_point(single.point)
+## Take a look at the description of this objects class:
+class(single.point.st)
+## [1] &quot;XY&quot;    &quot;POINT&quot; &quot;sfg&quot;</code></pre>
 </div>
-<div id="make-some-test-data" class="section level3">
-<h3>Make some test data</h3>
-<p>When developing, making manageable test data is really important. Here I’m making 1000,000 example rows that represent the type of data you might encounter in the wild.</p>
-<pre class="r"><code>## Make a large set of randomly chosen states and some other random content.
-random.dt &lt;- data.table(state = sample(region.key$state, 1000000, replace = TRUE), other.info = sample(1:100, 1000000, replace = TRUE))
-## Look at the first 15 rows:
-random.dt[1:15, ]
-##     state other.info
-##  1:    MS         36
-##  2:    VA         70
-##  3:    TN         16
-##  4:    WY         51
-##  5:    ID         70
-##  6:    CT         59
-##  7:    WV         71
-##  8:    VA         90
-##  9:    LA         69
-## 10:    WI         21
-## 11:    KS         28
-## 12:    ME         91
-## 13:    WV         16
-## 14:    OH         54
-## 15:    CO         23</code></pre>
+<div id="making-multiple-points" class="section level3">
+<h3>Making multiple points</h3>
+<p>I specify a table with two column. Each row is a point, and the columns are the X and Y coordinates.</p>
+<pre class="r"><code>multi.point &lt;- rbind(c(10, -2),
+                     c(11, -2),
+                     c(11, -1),
+                     c(10, -1))
+multi.point.st &lt;- st_multipoint(multi.point)
+class(multi.point.st)
+## [1] &quot;XY&quot;         &quot;MULTIPOINT&quot; &quot;sfg&quot;</code></pre>
 </div>
-<div id="add-category" class="section level3">
-<h3>Add category</h3>
-<p>That gives me my test data. When doing data analysis, there are many cases where it is necessary to assign observations to one or more of a set of categorical values. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I’m going to add the region category by merging the data with the region key table. The most error-proof way to do this is to have a column in both tables that exactly share a name as here with the <code>state</code> columns. If we have a common name we can <code>merge</code> using that name:</p>
-<pre class="r"><code>## By specifying sort=FALSE common.name.dt will have the same row order as random.dt
-common.name.dt &lt;- merge(random.dt, region.key, by = &quot;state&quot;, sort=FALSE)
-## Look at first 15 rows:
-common.name.dt[1:15, ]
-##     state other.info region
-##  1:    MS         36     SE
-##  2:    VA         70     SE
-##  3:    TN         16     SE
-##  4:    WY         51      W
-##  5:    ID         70      W
-##  6:    CT         59     NE
-##  7:    WV         71     SE
-##  8:    VA         90     SE
-##  9:    LA         69     SE
-## 10:    WI         21     MW
-## 11:    KS         28     MW
-## 12:    ME         91     NE
-## 13:    WV         16     SE
-## 14:    OH         54     MW
-## 15:    CO         23      W
-
-## success!</code></pre>
-<p><code>data.table</code> has a very sophisticated key hashing system whereby one or more columns can be specified as the key column(s), these get hashed so that subsequent sorting, searching and merging operations are extremely fast. For an example like this, the difference is not really noticeable, but it’s a good skill to have so here goes:</p>
-<pre class="r"><code>setkey(random.dt, &quot;state&quot;)
-setkey(region.key, &quot;state&quot;)
-## Calling merge without specifying a column will default to merging using the columns defined as the key.
-common.name.dt.2 &lt;- merge(random.dt, region.key)
-## top 15 rows:
-common.name.dt.2[1:15, ]
-##     state other.info region
-##  1:    AK         65      W
-##  2:    AK         72      W
-##  3:    AK         95      W
-##  4:    AK         90      W
-##  5:    AK         68      W
-##  6:    AK         50      W
-##  7:    AK         44      W
-##  8:    AK         61      W
-##  9:    AK         67      W
-## 10:    AK         73      W
-## 11:    AK         13      W
-## 12:    AK         76      W
-## 13:    AK         51      W
-## 14:    AK         73      W
-## 15:    AK         44      W
-## Again success but note the rows were sorted by setting the key.</code></pre>
-<p>It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten that the <code>setkey</code> command changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.</p>
+<div id="a-linestring" class="section level3">
+<h3>A linestring</h3>
+<p>Here I encode the <code>multi.point</code> table as a linestring with the points connected in the order of the table rows.</p>
+<pre class="r"><code>linestring.st &lt;- st_linestring(multi.point)
+plot(linestring.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
-<div id="using-the-category" class="section level3">
-<h3>Using the category</h3>
-<p>It’s worth showing a quick example of using the new category column: a group operation. I’ll show the mean of the <code>other.info</code> column grouped by region.</p>
-<pre class="r"><code>region.means &lt;- common.name.dt.2[, mean(other.info), by = &quot;region&quot;]
-## Change the default returned column name from V1 to mean.value
-setnames(region.means, old = &quot;V1&quot;, new = &quot;mean.value&quot;)
-region.means[]
-##    region mean.value
-## 1:      W   50.54963
-## 2:     SE   50.52125
-## 3:     SW   50.51910
-## 4:     NE   50.48674
-## 5:     MW   50.44882</code></pre>
+<div id="a-multi-line-string." class="section level3">
+<h3>A multi line string.</h3>
+<pre class="r"><code>multiline.st &lt;- st_multilinestring(list(multi.point, multi.point + 1.5))
+plot(multiline.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="a-polygon" class="section level3">
+<h3>A polygon</h3>
+<p>A polygon begins and ends at same location:</p>
+<pre class="r"><code>closed.ring &lt;- rbind(multi.point, multi.point[1, ])
+polygon.st &lt;- st_polygon(list(closed.ring))
+plot(polygon.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="a-polygon-with-a-hole" class="section level3">
+<h3>A polygon with a hole</h3>
+<p>Place the various individual polygons in a list with the perimiter as the first element, the following elements are coords of inner holes.</p>
+<pre class="r"><code>polygon.hole.st &lt;- st_polygon(list(closed.ring, rbind(c(10.2, -1.25),
+                                                      c(10.8, -1.25),
+                                                      c(10.8, -1.2),
+                                                      c(10.2, -1.2),
+                                                      c(10.2, -1.25))))
+plot(polygon.hole.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="multi-polygons" class="section level3">
+<h3>Multi polygons</h3>
+<p>These are specified simply by making a list of polygons.</p>
+<pre class="r"><code>multi.poly.st &lt;- st_multipolygon(list(list(closed.ring), list(closed.ring + 2)))
+plot(multi.poly.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="multi-geometry-object" class="section level3">
+<h3>Multi-geometry object</h3>
+<p>These are created by placing multiple goemetries of any type into a list and calling <code>st_geometrycollection</code>.</p>
+</div>
+<div id="geometry-columns" class="section level3">
+<h3>Geometry columns</h3>
+<p>It’s really useful to be able to combine individual spatial feature geometries (sfg’s) into columns. These columns would usually be of the same type eg., all points or all polygons.
+Here, I’m making a spatial feature geometry column for three points.</p>
+<pre class="r"><code>points.sfc &lt;- st_sfc(list(st_point(c(10, -2)), st_point(c(10, -3)), st_point(c(11, -2))))
+plot(points.sfc, col=&quot;red&quot;, pch=19)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>## To extract the coordinates into matrix form:
+st_coordinates(points.sfc)
+##    X  Y
+## 1 10 -2
+## 2 10 -3
+## 3 11 -2</code></pre>
+</div>
+<div id="adding-a-coordinate-reference-system-crs" class="section level3">
+<h3>Adding a Coordinate Reference System (CRS)</h3>
+<p>I can do this either with a European Petroleum Survey Group (EPSG) code or directly with a proj4 character string.</p>
+<pre class="r"><code>points.copy &lt;- points.sfc
+st_crs(points.sfc) &lt;- 4326 # EPSG code 4326 (WGS84)
+print(points.sfc)
+## Geometry set for 3 features 
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+# Retrieve the proj4string via:
+p4str &lt;- st_crs(points.sfc)$proj4string
+print(p4str)
+## [1] &quot;+proj=longlat +datum=WGS84 +no_defs &quot;
+st_crs(points.copy) &lt;- p4str
+print(points.copy)
+## Geometry set for 3 features 
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div id="adding-attributes" class="section level3">
+<h3>Adding attributes</h3>
+<p>Geospatial data gets interesting when there are one or more attributes associated with each feature for example population, temperature, rainfall etc.
+I make some simple attributes here and then assign a geometry to the attributes using the <code>points.sfc</code> defined above. I’m using a <code>tibble</code> to house the attributes.</p>
+<pre class="r"><code>sf.attributes &lt;- tibble(id = c(1, 2, 3), 
+                        name = c(&quot;point.1&quot;, &quot;point.2&quot;, &quot;point.3&quot;),
+                        value = c(300, 140, 210))
+# Use st_sf function to make a fully-fledged sf object:
+points.sf &lt;- st_sf(sf.attributes, geometry = points.sfc)
+print(points.sf)
+## Simple feature collection with 3 features and 3 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+##   id    name value      geometry
+## 1  1 point.1   300 POINT (10 -2)
+## 2  2 point.2   140 POINT (10 -3)
+## 3  3 point.3   210 POINT (11 -2)</code></pre>
+<p>Once attributes are specified the usual tools for selecting and manipulating tables can be applied.</p>
+<pre class="r"><code>sub.set &lt;- dplyr::filter(points.sf, value &gt; 150)
+print(sub.set)
+## Simple feature collection with 2 features and 3 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -2 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+##   id    name value      geometry
+## 1  1 point.1   300 POINT (10 -2)
+## 2  3 point.3   210 POINT (11 -2)</code></pre>
+</div>
+<div id="quickly-convert-table-to-sf" class="section level3">
+<h3>Quickly convert table to sf</h3>
+<p>A shortcut I use all the time is to convert a table of data that includes coordinates information directly into an <code>sf</code> object:</p>
+<pre class="r"><code># Make a table of data
+df &lt;- tibble(id = 1:3,
+             value = c(150, 200, 300),
+             lon = c(-2, -3, -4),
+             lat = c(50, 51, 52))
+# Then convert to sf using st_as_sf. We specify the names of the columns containing the X and Y coordinates and can optionally specify the CRS at this stage.
+df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)</code></pre>
 </div>
 <div id="summary" class="section level3">
 <h3>Summary</h3>
-<p>There are so many times when I need to assign rows to a higher category. Best way is to keep it simple, make a key table, then merge the two tables. Once you have one or more columns of categories it’s very easy to perform sophisticated pivot-type operations on groups of rows.</p>
+<ul>
+<li>The building block of a sf object is a sfc (simple feature column) together with an attribute table</li>
+<li>The building block of a sfc is a list of simple feature items (points etc) and a CRS</li>
+<li>The coordinates of simple geometry objects are placed into a vector (for a point) or matrix (for lines and polygons) and then converted to one of the geometry types using the appropriate <code>st_*</code> functions</li>
+<li>Individual sfg items can be stacked to form simple feature columns (sfc) by supplying them as a list to the st_sfc function together with a CRS (or the CRS can be added later).</li>
+<li>Attributes are added by passing a data.frame (or tibble or data.table) with appropriate columns and the same number of rows as there are simple features in the sfc using the st_sf function.</li>
+<li>For point data a table of attributes and coordinates can be converted directly to an sf object using <code>st_as_sf</code></li>
+</ul>
+</div>
 </div>
 
     </div>
@@ -708,9 +742,7 @@ region.means[]
 
 <div class="article-tags">
   
-  <a class="badge badge-light" href="/tag/data.table/">data.table</a>
-  
-  <a class="badge badge-light" href="/tag/merge/">merge</a>
+  <a class="badge badge-light" href="/tag/sf/">sf</a>
   
 </div>
 
@@ -727,7 +759,7 @@ region.means[]
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/quick-and-easy-classification-column-data-table/&amp;text=Quick%20and%20easy%20classification%20column%20%28data.table%29" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/spatial-features-the-fundamentals/&amp;text=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -740,7 +772,7 @@ region.means[]
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/quick-and-easy-classification-column-data-table/&amp;t=Quick%20and%20easy%20classification%20column%20%28data.table%29" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/spatial-features-the-fundamentals/&amp;t=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -753,7 +785,7 @@ region.means[]
       
       
       <li>
-        <a href="mailto:?subject=Quick%20and%20easy%20classification%20column%20%28data.table%29&amp;body=/post/quick-and-easy-classification-column-data-table/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=spatial%20features%20-%20the%20fundamentals&amp;body=/post/spatial-features-the-fundamentals/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -766,7 +798,7 @@ region.means[]
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/quick-and-easy-classification-column-data-table/&amp;title=Quick%20and%20easy%20classification%20column%20%28data.table%29" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/spatial-features-the-fundamentals/&amp;title=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -779,7 +811,7 @@ region.means[]
       
       
       <li>
-        <a href="whatsapp://send?text=Quick%20and%20easy%20classification%20column%20%28data.table%29%20/post/quick-and-easy-classification-column-data-table/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=spatial%20features%20-%20the%20fundamentals%20/post/spatial-features-the-fundamentals/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -792,7 +824,7 @@ region.means[]
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/quick-and-easy-classification-column-data-table/&amp;title=Quick%20and%20easy%20classification%20column%20%28data.table%29" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/spatial-features-the-fundamentals/&amp;title=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -875,9 +907,9 @@ region.means[]
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/spatial-features-the-fundamentals/">spatial features - the fundamentals</a></li>
-      
       <li><a href="/post/collecting-highway-bearings/">Collecting Highway Bearings</a></li>
+      
+      <li><a href="/post/quick-and-easy-classification-column-data-table/">Quick and easy classification column (data.table)</a></li>
       
     </ul>
   </div>

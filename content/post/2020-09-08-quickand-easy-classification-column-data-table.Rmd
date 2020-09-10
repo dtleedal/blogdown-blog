@@ -64,7 +64,7 @@ random.dt[1:15, ]
 ```
 
 ### Add category
-That gives me my test data. There are many cases where it can be really useful to have one or more categorical variable(s) for the rows. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I'm going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I'll show is to do this simply by having a common column name as we have here with `state`. If we have a common name we can `merge` using that name:
+That gives me my test data. When doing data analysis, there are many cases where it is necessary to assign observations to one or more of a set of categorical values. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I'm going to add the region category by merging the data with the region key table. The most error-proof way to do this is to have a column in both tables that exactly share a name as here with the `state` columns. If we have a common name we can `merge` using that name:
 
 ```{r message=FALSE}
 ## By specifying sort=FALSE common.name.dt will have the same row order as random.dt
@@ -84,9 +84,10 @@ setkey(region.key, "state")
 common.name.dt.2 <- merge(random.dt, region.key)
 ## top 15 rows:
 common.name.dt.2[1:15, ]
+## Again success but note the rows were sorted by setting the key.
 ```
 
-It's important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I'd wanted to column-bind tables and had forgotten setkey changed the order or rows. I'd suggest always using a reference column and merging tables rather than using column-binding unless you're confident about the row order.
+It's important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I'd wanted to column-bind tables and had forgotten that the `setkey` command changed the order or rows. I'd suggest always using a reference column and merging tables rather than using column-binding unless you're confident about the row order.
 
 ### Using the category
 It's worth showing a quick example of using the new category column: a group operation. I'll show the mean of the `other.info` column grouped by region.

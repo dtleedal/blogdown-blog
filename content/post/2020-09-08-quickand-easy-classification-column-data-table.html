@@ -66,45 +66,45 @@ random.dt &lt;- data.table(state = sample(region.key$state, 1000000, replace = T
 ## Look at the first 15 rows:
 random.dt[1:15, ]
 ##     state other.info
-##  1:    WA         64
-##  2:    PA          9
-##  3:    UT         70
-##  4:    MN         98
-##  5:    NE         76
-##  6:    WV         20
-##  7:    MO         31
-##  8:    NY         82
-##  9:    NE         76
-## 10:    DC         93
-## 11:    MT         69
-## 12:    WV         22
-## 13:    LA         45
-## 14:    OR          1
-## 15:    NC         50</code></pre>
+##  1:    MS         36
+##  2:    VA         70
+##  3:    TN         16
+##  4:    WY         51
+##  5:    ID         70
+##  6:    CT         59
+##  7:    WV         71
+##  8:    VA         90
+##  9:    LA         69
+## 10:    WI         21
+## 11:    KS         28
+## 12:    ME         91
+## 13:    WV         16
+## 14:    OH         54
+## 15:    CO         23</code></pre>
 </div>
 <div id="add-category" class="section level3">
 <h3>Add category</h3>
-<p>That gives me my test data. There are many cases where it can be really useful to have one or more categorical variable(s) for the rows. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I’m going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I’ll show is to do this simply by having a common column name as we have here with <code>state</code>. If we have a common name we can <code>merge</code> using that name:</p>
+<p>That gives me my test data. When doing data analysis, there are many cases where it is necessary to assign observations to one or more of a set of categorical values. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I’m going to add the region category by merging the data with the region key table. The most error-proof way to do this is to have a column in both tables that exactly share a name as here with the <code>state</code> columns. If we have a common name we can <code>merge</code> using that name:</p>
 <pre class="r"><code>## By specifying sort=FALSE common.name.dt will have the same row order as random.dt
 common.name.dt &lt;- merge(random.dt, region.key, by = &quot;state&quot;, sort=FALSE)
 ## Look at first 15 rows:
 common.name.dt[1:15, ]
 ##     state other.info region
-##  1:    WA         64      W
-##  2:    PA          9     NE
-##  3:    UT         70      W
-##  4:    MN         98     MW
-##  5:    NE         76     MW
-##  6:    WV         20     SE
-##  7:    MO         31     MW
-##  8:    NY         82     NE
-##  9:    NE         76     MW
-## 10:    DC         93     SE
-## 11:    MT         69      W
-## 12:    WV         22     SE
-## 13:    LA         45     SE
-## 14:    OR          1      W
-## 15:    NC         50     SE
+##  1:    MS         36     SE
+##  2:    VA         70     SE
+##  3:    TN         16     SE
+##  4:    WY         51      W
+##  5:    ID         70      W
+##  6:    CT         59     NE
+##  7:    WV         71     SE
+##  8:    VA         90     SE
+##  9:    LA         69     SE
+## 10:    WI         21     MW
+## 11:    KS         28     MW
+## 12:    ME         91     NE
+## 13:    WV         16     SE
+## 14:    OH         54     MW
+## 15:    CO         23      W
 
 ## success!</code></pre>
 <p><code>data.table</code> has a very sophisticated key hashing system whereby one or more columns can be specified as the key column(s), these get hashed so that subsequent sorting, searching and merging operations are extremely fast. For an example like this, the difference is not really noticeable, but it’s a good skill to have so here goes:</p>
@@ -115,22 +115,23 @@ common.name.dt.2 &lt;- merge(random.dt, region.key)
 ## top 15 rows:
 common.name.dt.2[1:15, ]
 ##     state other.info region
-##  1:    AK         79      W
-##  2:    AK         19      W
-##  3:    AK         19      W
-##  4:    AK         23      W
-##  5:    AK         87      W
-##  6:    AK         89      W
-##  7:    AK         45      W
-##  8:    AK          6      W
-##  9:    AK         31      W
-## 10:    AK          4      W
-## 11:    AK         36      W
-## 12:    AK         47      W
-## 13:    AK         39      W
-## 14:    AK         30      W
-## 15:    AK         89      W</code></pre>
-<p>It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten setkey changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.</p>
+##  1:    AK         65      W
+##  2:    AK         72      W
+##  3:    AK         95      W
+##  4:    AK         90      W
+##  5:    AK         68      W
+##  6:    AK         50      W
+##  7:    AK         44      W
+##  8:    AK         61      W
+##  9:    AK         67      W
+## 10:    AK         73      W
+## 11:    AK         13      W
+## 12:    AK         76      W
+## 13:    AK         51      W
+## 14:    AK         73      W
+## 15:    AK         44      W
+## Again success but note the rows were sorted by setting the key.</code></pre>
+<p>It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten that the <code>setkey</code> command changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.</p>
 </div>
 <div id="using-the-category" class="section level3">
 <h3>Using the category</h3>
@@ -140,11 +141,11 @@ common.name.dt.2[1:15, ]
 setnames(region.means, old = &quot;V1&quot;, new = &quot;mean.value&quot;)
 region.means[]
 ##    region mean.value
-## 1:      W   50.39454
-## 2:     SE   50.53395
-## 3:     SW   50.49487
-## 4:     NE   50.54387
-## 5:     MW   50.49728</code></pre>
+## 1:      W   50.54963
+## 2:     SE   50.52125
+## 3:     SW   50.51910
+## 4:     NE   50.48674
+## 5:     MW   50.44882</code></pre>
 </div>
 <div id="summary" class="section level3">
 <h3>Summary</h3>

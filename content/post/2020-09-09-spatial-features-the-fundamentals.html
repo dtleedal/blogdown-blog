@@ -1,0 +1,187 @@
+---
+title: spatial features - the fundamentals
+author: Dave Leedal
+date: '2020-09-09'
+slug: spatial-features-the-fundamentals
+categories:
+  - R
+  - geospatial
+tags:
+  - sf
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-09-09T15:02:56+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<div id="get-the-packages" class="section level2">
+<h2>Get the packages</h2>
+<pre class="r"><code>library(sf)
+library(dplyr)</code></pre>
+<div id="spatial-features-from-first-principles" class="section level3">
+<h3>Spatial features from first principles</h3>
+<p>Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s <code>sp</code> and <code>raster</code> librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry’s page helped with this, <a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">you can find it here</a>.</p>
+<p>I wanted to make something similar for the <code>sf</code> package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although <code>sp</code> will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of <code>sf</code> and geospatial programming in R see the free book by Lovelace et al.:<a href="https://geocompr.robinlovelace.net/">https://geocompr.robinlovelace.net/</a></p>
+</div>
+<div id="making-a-single-point" class="section level3">
+<h3>Making a single point</h3>
+<p>All functions operating on spatial data in the <code>sf</code> package begin with <code>st_</code> which stands for spatial type. Starting with the simplest spatial type: a single point, I specify a two element vector where the two values are the X and Y coordinates of the point.</p>
+<pre class="r"><code>single.point &lt;- c(10, -2)
+single.point.st &lt;- st_point(single.point)
+## Take a look at the description of this objects class:
+class(single.point.st)
+## [1] &quot;XY&quot;    &quot;POINT&quot; &quot;sfg&quot;</code></pre>
+</div>
+<div id="making-multiple-points" class="section level3">
+<h3>Making multiple points</h3>
+<p>I specify a table with two column. Each row is a point, and the columns are the X and Y coordinates.</p>
+<pre class="r"><code>multi.point &lt;- rbind(c(10, -2),
+                     c(11, -2),
+                     c(11, -1),
+                     c(10, -1))
+multi.point.st &lt;- st_multipoint(multi.point)
+class(multi.point.st)
+## [1] &quot;XY&quot;         &quot;MULTIPOINT&quot; &quot;sfg&quot;</code></pre>
+</div>
+<div id="a-linestring" class="section level3">
+<h3>A linestring</h3>
+<p>Here I encode the <code>multi.point</code> table as a linestring with the points connected in the order of the table rows.</p>
+<pre class="r"><code>linestring.st &lt;- st_linestring(multi.point)
+plot(linestring.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="a-multi-line-string." class="section level3">
+<h3>A multi line string.</h3>
+<pre class="r"><code>multiline.st &lt;- st_multilinestring(list(multi.point, multi.point + 1.5))
+plot(multiline.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="a-polygon" class="section level3">
+<h3>A polygon</h3>
+<p>A polygon begins and ends at same location:</p>
+<pre class="r"><code>closed.ring &lt;- rbind(multi.point, multi.point[1, ])
+polygon.st &lt;- st_polygon(list(closed.ring))
+plot(polygon.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="a-polygon-with-a-hole" class="section level3">
+<h3>A polygon with a hole</h3>
+<p>Place the various individual polygons in a list with the perimiter as the first element, the following elements are coords of inner holes.</p>
+<pre class="r"><code>polygon.hole.st &lt;- st_polygon(list(closed.ring, rbind(c(10.2, -1.25),
+                                                      c(10.8, -1.25),
+                                                      c(10.8, -1.2),
+                                                      c(10.2, -1.2),
+                                                      c(10.2, -1.25))))
+plot(polygon.hole.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="multi-polygons" class="section level3">
+<h3>Multi polygons</h3>
+<p>These are specified simply by making a list of polygons.</p>
+<pre class="r"><code>multi.poly.st &lt;- st_multipolygon(list(list(closed.ring), list(closed.ring + 2)))
+plot(multi.poly.st)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="multi-geometry-object" class="section level3">
+<h3>Multi-geometry object</h3>
+<p>These are created by placing multiple goemetries of any type into a list and calling <code>st_geometrycollection</code>.</p>
+</div>
+<div id="geometry-columns" class="section level3">
+<h3>Geometry columns</h3>
+<p>It’s really useful to be able to combine individual spatial feature geometries (sfg’s) into columns. These columns would usually be of the same type eg., all points or all polygons.
+Here, I’m making a spatial feature geometry column for three points.</p>
+<pre class="r"><code>points.sfc &lt;- st_sfc(list(st_point(c(10, -2)), st_point(c(10, -3)), st_point(c(11, -2))))
+plot(points.sfc, col=&quot;red&quot;, pch=19)</code></pre>
+<p><img src="/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>## To extract the coordinates into matrix form:
+st_coordinates(points.sfc)
+##    X  Y
+## 1 10 -2
+## 2 10 -3
+## 3 11 -2</code></pre>
+</div>
+<div id="adding-a-coordinate-reference-system-crs" class="section level3">
+<h3>Adding a Coordinate Reference System (CRS)</h3>
+<p>I can do this either with a European Petroleum Survey Group (EPSG) code or directly with a proj4 character string.</p>
+<pre class="r"><code>points.copy &lt;- points.sfc
+st_crs(points.sfc) &lt;- 4326 # EPSG code 4326 (WGS84)
+print(points.sfc)
+## Geometry set for 3 features 
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+# Retrieve the proj4string via:
+p4str &lt;- st_crs(points.sfc)$proj4string
+print(p4str)
+## [1] &quot;+proj=longlat +datum=WGS84 +no_defs &quot;
+st_crs(points.copy) &lt;- p4str
+print(points.copy)
+## Geometry set for 3 features 
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div id="adding-attributes" class="section level3">
+<h3>Adding attributes</h3>
+<p>Geospatial data gets interesting when there are one or more attributes associated with each feature for example population, temperature, rainfall etc.
+I make some simple attributes here and then assign a geometry to the attributes using the <code>points.sfc</code> defined above. I’m using a <code>tibble</code> to house the attributes.</p>
+<pre class="r"><code>sf.attributes &lt;- tibble(id = c(1, 2, 3), 
+                        name = c(&quot;point.1&quot;, &quot;point.2&quot;, &quot;point.3&quot;),
+                        value = c(300, 140, 210))
+# Use st_sf function to make a fully-fledged sf object:
+points.sf &lt;- st_sf(sf.attributes, geometry = points.sfc)
+print(points.sf)
+## Simple feature collection with 3 features and 3 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+##   id    name value      geometry
+## 1  1 point.1   300 POINT (10 -2)
+## 2  2 point.2   140 POINT (10 -3)
+## 3  3 point.3   210 POINT (11 -2)</code></pre>
+<p>Once attributes are specified the usual tools for selecting and manipulating tables can be applied.</p>
+<pre class="r"><code>sub.set &lt;- dplyr::filter(points.sf, value &gt; 150)
+print(sub.set)
+## Simple feature collection with 2 features and 3 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -2 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+##   id    name value      geometry
+## 1  1 point.1   300 POINT (10 -2)
+## 2  3 point.3   210 POINT (11 -2)</code></pre>
+</div>
+<div id="quickly-convert-table-to-sf" class="section level3">
+<h3>Quickly convert table to sf</h3>
+<p>A shortcut I use all the time is to convert a table of data that includes coordinates information directly into an <code>sf</code> object:</p>
+<pre class="r"><code># Make a table of data
+df &lt;- tibble(id = 1:3,
+             value = c(150, 200, 300),
+             lon = c(-2, -3, -4),
+             lat = c(50, 51, 52))
+# Then convert to sf using st_as_sf. We specify the names of the columns containing the X and Y coordinates and can optionally specify the CRS at this stage.
+df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)</code></pre>
+</div>
+<div id="summary" class="section level3">
+<h3>Summary</h3>
+<ul>
+<li>The building block of a sf object is a sfc (simple feature column) together with an attribute table</li>
+<li>The building block of a sfc is a list of simple feature items (points etc) and a CRS</li>
+<li>The coordinates of simple geometry objects are placed into a vector (for a point) or matrix (for lines and polygons) and then converted to one of the geometry types using the appropriate <code>st_*</code> functions</li>
+<li>Individual sfg items can be stacked to form simple feature columns (sfc) by supplying them as a list to the st_sfc function together with a CRS (or the CRS can be added later).</li>
+<li>Attributes are added by passing a data.frame (or tibble or data.table) with appropriate columns and the same number of rows as there are simple features in the sfc using the st_sf function.</li>
+<li>For point data a table of attributes and coordinates can be converted directly to an sf object using <code>st_as_sf</code></li>
+</ul>
+</div>
+</div>

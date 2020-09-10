@@ -35,6 +35,180 @@
     </item>
     
     <item>
+      <title>spatial features - the fundamentals</title>
+      <link>/post/spatial-features-the-fundamentals/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      <guid>/post/spatial-features-the-fundamentals/</guid>
+      <description>
+
+
+&lt;div id=&#34;get-the-packages&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Get the packages&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(sf)
+library(dplyr)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;spatial-features-from-first-principles&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Spatial features from first principles&lt;/h3&gt;
+&lt;p&gt;Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s &lt;code&gt;sp&lt;/code&gt; and &lt;code&gt;raster&lt;/code&gt; librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry’s page helped with this, &lt;a href=&#34;https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html&#34;&gt;you can find it here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I wanted to make something similar for the &lt;code&gt;sf&lt;/code&gt; package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although &lt;code&gt;sp&lt;/code&gt; will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of &lt;code&gt;sf&lt;/code&gt; and geospatial programming in R see the free book by Lovelace et al.:&lt;a href=&#34;https://geocompr.robinlovelace.net/&#34;&gt;https://geocompr.robinlovelace.net/&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;making-a-single-point&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Making a single point&lt;/h3&gt;
+&lt;p&gt;All functions operating on spatial data in the &lt;code&gt;sf&lt;/code&gt; package begin with &lt;code&gt;st_&lt;/code&gt; which stands for spatial type. Starting with the simplest spatial type: a single point, I specify a two element vector where the two values are the X and Y coordinates of the point.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;single.point &amp;lt;- c(10, -2)
+single.point.st &amp;lt;- st_point(single.point)
+## Take a look at the description of this objects class:
+class(single.point.st)
+## [1] &amp;quot;XY&amp;quot;    &amp;quot;POINT&amp;quot; &amp;quot;sfg&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;making-multiple-points&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Making multiple points&lt;/h3&gt;
+&lt;p&gt;I specify a table with two column. Each row is a point, and the columns are the X and Y coordinates.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;multi.point &amp;lt;- rbind(c(10, -2),
+                     c(11, -2),
+                     c(11, -1),
+                     c(10, -1))
+multi.point.st &amp;lt;- st_multipoint(multi.point)
+class(multi.point.st)
+## [1] &amp;quot;XY&amp;quot;         &amp;quot;MULTIPOINT&amp;quot; &amp;quot;sfg&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-linestring&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A linestring&lt;/h3&gt;
+&lt;p&gt;Here I encode the &lt;code&gt;multi.point&lt;/code&gt; table as a linestring with the points connected in the order of the table rows.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;linestring.st &amp;lt;- st_linestring(multi.point)
+plot(linestring.st)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-multi-line-string.&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A multi line string.&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;multiline.st &amp;lt;- st_multilinestring(list(multi.point, multi.point + 1.5))
+plot(multiline.st)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-polygon&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A polygon&lt;/h3&gt;
+&lt;p&gt;A polygon begins and ends at same location:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;closed.ring &amp;lt;- rbind(multi.point, multi.point[1, ])
+polygon.st &amp;lt;- st_polygon(list(closed.ring))
+plot(polygon.st)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-polygon-with-a-hole&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;A polygon with a hole&lt;/h3&gt;
+&lt;p&gt;Place the various individual polygons in a list with the perimiter as the first element, the following elements are coords of inner holes.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;polygon.hole.st &amp;lt;- st_polygon(list(closed.ring, rbind(c(10.2, -1.25),
+                                                      c(10.8, -1.25),
+                                                      c(10.8, -1.2),
+                                                      c(10.2, -1.2),
+                                                      c(10.2, -1.25))))
+plot(polygon.hole.st)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;multi-polygons&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Multi polygons&lt;/h3&gt;
+&lt;p&gt;These are specified simply by making a list of polygons.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;multi.poly.st &amp;lt;- st_multipolygon(list(list(closed.ring), list(closed.ring + 2)))
+plot(multi.poly.st)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;multi-geometry-object&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Multi-geometry object&lt;/h3&gt;
+&lt;p&gt;These are created by placing multiple goemetries of any type into a list and calling &lt;code&gt;st_geometrycollection&lt;/code&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;geometry-columns&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Geometry columns&lt;/h3&gt;
+&lt;p&gt;It’s really useful to be able to combine individual spatial feature geometries (sfg’s) into columns. These columns would usually be of the same type eg., all points or all polygons.
+Here, I’m making a spatial feature geometry column for three points.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;points.sfc &amp;lt;- st_sfc(list(st_point(c(10, -2)), st_point(c(10, -3)), st_point(c(11, -2))))
+plot(points.sfc, col=&amp;quot;red&amp;quot;, pch=19)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-09-09-spatial-features-the-fundamentals_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## To extract the coordinates into matrix form:
+st_coordinates(points.sfc)
+##    X  Y
+## 1 10 -2
+## 2 10 -3
+## 3 11 -2&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;adding-a-coordinate-reference-system-crs&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Adding a Coordinate Reference System (CRS)&lt;/h3&gt;
+&lt;p&gt;I can do this either with a European Petroleum Survey Group (EPSG) code or directly with a proj4 character string.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;points.copy &amp;lt;- points.sfc
+st_crs(points.sfc) &amp;lt;- 4326 # EPSG code 4326 (WGS84)
+print(points.sfc)
+## Geometry set for 3 features 
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+# Retrieve the proj4string via:
+p4str &amp;lt;- st_crs(points.sfc)$proj4string
+print(p4str)
+## [1] &amp;quot;+proj=longlat +datum=WGS84 +no_defs &amp;quot;
+st_crs(points.copy) &amp;lt;- p4str
+print(points.copy)
+## Geometry set for 3 features 
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            +proj=longlat +datum=WGS84 +no_defs&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;adding-attributes&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Adding attributes&lt;/h3&gt;
+&lt;p&gt;Geospatial data gets interesting when there are one or more attributes associated with each feature for example population, temperature, rainfall etc.
+I make some simple attributes here and then assign a geometry to the attributes using the &lt;code&gt;points.sfc&lt;/code&gt; defined above. I’m using a &lt;code&gt;tibble&lt;/code&gt; to house the attributes.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sf.attributes &amp;lt;- tibble(id = c(1, 2, 3), 
+                        name = c(&amp;quot;point.1&amp;quot;, &amp;quot;point.2&amp;quot;, &amp;quot;point.3&amp;quot;),
+                        value = c(300, 140, 210))
+# Use st_sf function to make a fully-fledged sf object:
+points.sf &amp;lt;- st_sf(sf.attributes, geometry = points.sfc)
+print(points.sf)
+## Simple feature collection with 3 features and 3 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -3 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+##   id    name value      geometry
+## 1  1 point.1   300 POINT (10 -2)
+## 2  2 point.2   140 POINT (10 -3)
+## 3  3 point.3   210 POINT (11 -2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once attributes are specified the usual tools for selecting and manipulating tables can be applied.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sub.set &amp;lt;- dplyr::filter(points.sf, value &amp;gt; 150)
+print(sub.set)
+## Simple feature collection with 2 features and 3 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: 10 ymin: -2 xmax: 11 ymax: -2
+## CRS:            EPSG:4326
+##   id    name value      geometry
+## 1  1 point.1   300 POINT (10 -2)
+## 2  3 point.3   210 POINT (11 -2)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;quickly-convert-table-to-sf&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Quickly convert table to sf&lt;/h3&gt;
+&lt;p&gt;A shortcut I use all the time is to convert a table of data that includes coordinates information directly into an &lt;code&gt;sf&lt;/code&gt; object:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Make a table of data
+df &amp;lt;- tibble(id = 1:3,
+             value = c(150, 200, 300),
+             lon = c(-2, -3, -4),
+             lat = c(50, 51, 52))
+# Then convert to sf using st_as_sf. We specify the names of the columns containing the X and Y coordinates and can optionally specify the CRS at this stage.
+df.sf &amp;lt;- st_as_sf(df, coords = c(&amp;quot;lon&amp;quot;, &amp;quot;lat&amp;quot;), crs=4326)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;The building block of a sf object is a sfc (simple feature column) together with an attribute table&lt;/li&gt;
+&lt;li&gt;The building block of a sfc is a list of simple feature items (points etc) and a CRS&lt;/li&gt;
+&lt;li&gt;The coordinates of simple geometry objects are placed into a vector (for a point) or matrix (for lines and polygons) and then converted to one of the geometry types using the appropriate &lt;code&gt;st_*&lt;/code&gt; functions&lt;/li&gt;
+&lt;li&gt;Individual sfg items can be stacked to form simple feature columns (sfc) by supplying them as a list to the st_sfc function together with a CRS (or the CRS can be added later).&lt;/li&gt;
+&lt;li&gt;Attributes are added by passing a data.frame (or tibble or data.table) with appropriate columns and the same number of rows as there are simple features in the sfc using the st_sf function.&lt;/li&gt;
+&lt;li&gt;For point data a table of attributes and coordinates can be converted directly to an sf object using &lt;code&gt;st_as_sf&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Quick and easy classification column (data.table)</title>
       <link>/post/quick-and-easy-classification-column-data-table/</link>
       <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
@@ -86,45 +260,45 @@ random.dt &amp;lt;- data.table(state = sample(region.key$state, 1000000, replace
 ## Look at the first 15 rows:
 random.dt[1:15, ]
 ##     state other.info
-##  1:    WA         64
-##  2:    PA          9
-##  3:    UT         70
-##  4:    MN         98
-##  5:    NE         76
-##  6:    WV         20
-##  7:    MO         31
-##  8:    NY         82
-##  9:    NE         76
-## 10:    DC         93
-## 11:    MT         69
-## 12:    WV         22
-## 13:    LA         45
-## 14:    OR          1
-## 15:    NC         50&lt;/code&gt;&lt;/pre&gt;
+##  1:    MS         36
+##  2:    VA         70
+##  3:    TN         16
+##  4:    WY         51
+##  5:    ID         70
+##  6:    CT         59
+##  7:    WV         71
+##  8:    VA         90
+##  9:    LA         69
+## 10:    WI         21
+## 11:    KS         28
+## 12:    ME         91
+## 13:    WV         16
+## 14:    OH         54
+## 15:    CO         23&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;add-category&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Add category&lt;/h3&gt;
-&lt;p&gt;That gives me my test data. There are many cases where it can be really useful to have one or more categorical variable(s) for the rows. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I’m going to add the region category by merging the data with the key table. The most error-proof way to do this is to have a key column in both tables. The first way I’ll show is to do this simply by having a common column name as we have here with &lt;code&gt;state&lt;/code&gt;. If we have a common name we can &lt;code&gt;merge&lt;/code&gt; using that name:&lt;/p&gt;
+&lt;p&gt;That gives me my test data. When doing data analysis, there are many cases where it is necessary to assign observations to one or more of a set of categorical values. For example here I might want to know which region each state belongs to. Maybe I want to colour code a plot, or perform pivot-like grouping operations by region. So I’m going to add the region category by merging the data with the region key table. The most error-proof way to do this is to have a column in both tables that exactly share a name as here with the &lt;code&gt;state&lt;/code&gt; columns. If we have a common name we can &lt;code&gt;merge&lt;/code&gt; using that name:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## By specifying sort=FALSE common.name.dt will have the same row order as random.dt
 common.name.dt &amp;lt;- merge(random.dt, region.key, by = &amp;quot;state&amp;quot;, sort=FALSE)
 ## Look at first 15 rows:
 common.name.dt[1:15, ]
 ##     state other.info region
-##  1:    WA         64      W
-##  2:    PA          9     NE
-##  3:    UT         70      W
-##  4:    MN         98     MW
-##  5:    NE         76     MW
-##  6:    WV         20     SE
-##  7:    MO         31     MW
-##  8:    NY         82     NE
-##  9:    NE         76     MW
-## 10:    DC         93     SE
-## 11:    MT         69      W
-## 12:    WV         22     SE
-## 13:    LA         45     SE
-## 14:    OR          1      W
-## 15:    NC         50     SE
+##  1:    MS         36     SE
+##  2:    VA         70     SE
+##  3:    TN         16     SE
+##  4:    WY         51      W
+##  5:    ID         70      W
+##  6:    CT         59     NE
+##  7:    WV         71     SE
+##  8:    VA         90     SE
+##  9:    LA         69     SE
+## 10:    WI         21     MW
+## 11:    KS         28     MW
+## 12:    ME         91     NE
+## 13:    WV         16     SE
+## 14:    OH         54     MW
+## 15:    CO         23      W
 
 ## success!&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;data.table&lt;/code&gt; has a very sophisticated key hashing system whereby one or more columns can be specified as the key column(s), these get hashed so that subsequent sorting, searching and merging operations are extremely fast. For an example like this, the difference is not really noticeable, but it’s a good skill to have so here goes:&lt;/p&gt;
@@ -135,22 +309,23 @@ common.name.dt.2 &amp;lt;- merge(random.dt, region.key)
 ## top 15 rows:
 common.name.dt.2[1:15, ]
 ##     state other.info region
-##  1:    AK         79      W
-##  2:    AK         19      W
-##  3:    AK         19      W
-##  4:    AK         23      W
-##  5:    AK         87      W
-##  6:    AK         89      W
-##  7:    AK         45      W
-##  8:    AK          6      W
-##  9:    AK         31      W
-## 10:    AK          4      W
-## 11:    AK         36      W
-## 12:    AK         47      W
-## 13:    AK         39      W
-## 14:    AK         30      W
-## 15:    AK         89      W&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten setkey changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.&lt;/p&gt;
+##  1:    AK         65      W
+##  2:    AK         72      W
+##  3:    AK         95      W
+##  4:    AK         90      W
+##  5:    AK         68      W
+##  6:    AK         50      W
+##  7:    AK         44      W
+##  8:    AK         61      W
+##  9:    AK         67      W
+## 10:    AK         73      W
+## 11:    AK         13      W
+## 12:    AK         76      W
+## 13:    AK         51      W
+## 14:    AK         73      W
+## 15:    AK         44      W
+## Again success but note the rows were sorted by setting the key.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It’s important to note that setting a key column automatically sorts the table in alphabetic or numeric order depending on the data type. This could cause errors if I’d wanted to column-bind tables and had forgotten that the &lt;code&gt;setkey&lt;/code&gt; command changed the order or rows. I’d suggest always using a reference column and merging tables rather than using column-binding unless you’re confident about the row order.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;using-the-category&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Using the category&lt;/h3&gt;
@@ -160,11 +335,11 @@ common.name.dt.2[1:15, ]
 setnames(region.means, old = &amp;quot;V1&amp;quot;, new = &amp;quot;mean.value&amp;quot;)
 region.means[]
 ##    region mean.value
-## 1:      W   50.39454
-## 2:     SE   50.53395
-## 3:     SW   50.49487
-## 4:     NE   50.54387
-## 5:     MW   50.49728&lt;/code&gt;&lt;/pre&gt;
+## 1:      W   50.54963
+## 2:     SE   50.52125
+## 3:     SW   50.51910
+## 4:     NE   50.48674
+## 5:     MW   50.44882&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
