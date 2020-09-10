@@ -234,7 +234,7 @@
   
   <meta property="og:site_name" content="Dave&#39;s data science">
   <meta property="og:url" content="/post/spatial-features-the-fundamentals/">
-  <meta property="og:title" content="spatial features - the fundamentals | Dave&#39;s data science">
+  <meta property="og:title" content="Spatial features: the fundamentals | Dave&#39;s data science">
   <meta property="og:description" content="Get the packages library(sf) library(dplyr) Spatial features from first principles Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s sp and raster librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases)."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
@@ -267,7 +267,7 @@
     "@type": "WebPage",
     "@id": "/post/spatial-features-the-fundamentals/"
   },
-  "headline": "spatial features - the fundamentals",
+  "headline": "Spatial features: the fundamentals",
   
   "datePublished": "2020-09-09T00:00:00Z",
   "dateModified": "2020-09-09T15:02:56+01:00",
@@ -303,7 +303,7 @@
 
 
 
-  <title>spatial features - the fundamentals | Dave&#39;s data science</title>
+  <title>Spatial features: the fundamentals | Dave&#39;s data science</title>
 
 </head>
 
@@ -469,7 +469,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>spatial features - the fundamentals</h1>
+  <h1>Spatial features: the fundamentals</h1>
 
   
 
@@ -499,7 +499,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    5 min read
+    6 min read
   </span>
   
 
@@ -552,7 +552,8 @@ library(dplyr)</code></pre>
 <div id="spatial-features-from-first-principles" class="section level3">
 <h3>Spatial features from first principles</h3>
 <p>Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s <code>sp</code> and <code>raster</code> librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry’s page helped with this, <a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">you can find it here</a>.</p>
-<p>I wanted to make something similar for the <code>sf</code> package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although <code>sp</code> will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of <code>sf</code> and geospatial programming in R see the free book by Lovelace et al.:<a href="https://geocompr.robinlovelace.net/">https://geocompr.robinlovelace.net/</a></p>
+<p>I wanted to make something similar for the <code>sf</code> package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although <code>sp</code> will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of <code>sf</code> and geospatial programming in R see the free book by <a href="https://geocompr.robinlovelace.net/">Lovelace et al.</a>.
+The remainder of this post walks through making very simple spatial objects using the <code>sf</code> package.</p>
 </div>
 <div id="making-a-single-point" class="section level3">
 <h3>Making a single point</h3>
@@ -759,7 +760,7 @@ df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/spatial-features-the-fundamentals/&amp;text=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/spatial-features-the-fundamentals/&amp;text=Spatial%20features:%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -772,7 +773,7 @@ df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/spatial-features-the-fundamentals/&amp;t=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/spatial-features-the-fundamentals/&amp;t=Spatial%20features:%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -785,7 +786,7 @@ df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)
       
       
       <li>
-        <a href="mailto:?subject=spatial%20features%20-%20the%20fundamentals&amp;body=/post/spatial-features-the-fundamentals/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Spatial%20features:%20the%20fundamentals&amp;body=/post/spatial-features-the-fundamentals/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -798,7 +799,7 @@ df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/spatial-features-the-fundamentals/&amp;title=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/spatial-features-the-fundamentals/&amp;title=Spatial%20features:%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -811,7 +812,7 @@ df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)
       
       
       <li>
-        <a href="whatsapp://send?text=spatial%20features%20-%20the%20fundamentals%20/post/spatial-features-the-fundamentals/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=Spatial%20features:%20the%20fundamentals%20/post/spatial-features-the-fundamentals/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -824,7 +825,7 @@ df.sf &lt;- st_as_sf(df, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs=4326)
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/spatial-features-the-fundamentals/&amp;title=spatial%20features%20-%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/spatial-features-the-fundamentals/&amp;title=Spatial%20features:%20the%20fundamentals" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>

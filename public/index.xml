@@ -35,7 +35,7 @@
     </item>
     
     <item>
-      <title>spatial features - the fundamentals</title>
+      <title>Spatial features: the fundamentals</title>
       <link>/post/spatial-features-the-fundamentals/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
       <guid>/post/spatial-features-the-fundamentals/</guid>
@@ -49,7 +49,8 @@ library(dplyr)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;spatial-features-from-first-principles&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Spatial features from first principles&lt;/h3&gt;
 &lt;p&gt;Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s &lt;code&gt;sp&lt;/code&gt; and &lt;code&gt;raster&lt;/code&gt; librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry’s page helped with this, &lt;a href=&#34;https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html&#34;&gt;you can find it here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;I wanted to make something similar for the &lt;code&gt;sf&lt;/code&gt; package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although &lt;code&gt;sp&lt;/code&gt; will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of &lt;code&gt;sf&lt;/code&gt; and geospatial programming in R see the free book by Lovelace et al.:&lt;a href=&#34;https://geocompr.robinlovelace.net/&#34;&gt;https://geocompr.robinlovelace.net/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I wanted to make something similar for the &lt;code&gt;sf&lt;/code&gt; package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although &lt;code&gt;sp&lt;/code&gt; will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of &lt;code&gt;sf&lt;/code&gt; and geospatial programming in R see the free book by &lt;a href=&#34;https://geocompr.robinlovelace.net/&#34;&gt;Lovelace et al.&lt;/a&gt;.
+The remainder of this post walks through making very simple spatial objects using the &lt;code&gt;sf&lt;/code&gt; package.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;making-a-single-point&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Making a single point&lt;/h3&gt;

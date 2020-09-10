@@ -1,5 +1,5 @@
 ---
-title: spatial features - the fundamentals
+title: 'Spatial features: the fundamentals'
 author: Dave Leedal
 date: '2020-09-09'
 slug: spatial-features-the-fundamentals
@@ -34,7 +34,8 @@ library(dplyr)
 
 Early on my geospatial learning path I came across Barry Rowlingson's cheat sheet for R's `sp` and `raster` librarys. I find it really useful to build simple test examples from scratch to make sure I know what I'm doing before diving in to  large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry's page helped with this, [you can find it here](https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html).
 
-I wanted to make something similar for the `sf` package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although `sp` will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of `sf` and geospatial programming in R see the free book by Lovelace et al.:[https://geocompr.robinlovelace.net/](https://geocompr.robinlovelace.net/)   
+I wanted to make something similar for the `sf` package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although `sp` will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of `sf` and geospatial programming in R see the free book by [Lovelace et al.](https://geocompr.robinlovelace.net/).
+The remainder of this post walks through making very simple spatial objects using the `sf` package.
 
 ### Making a single point
 All functions operating on spatial data in the `sf` package begin with `st_` which stands for spatial type. Starting with the simplest spatial type: a single point, I specify a two element vector where the two values are the X and Y coordinates of the point.

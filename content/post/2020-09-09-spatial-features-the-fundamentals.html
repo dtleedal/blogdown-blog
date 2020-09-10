@@ -1,5 +1,5 @@
 ---
-title: spatial features - the fundamentals
+title: 'Spatial features: the fundamentals'
 author: Dave Leedal
 date: '2020-09-09'
 slug: spatial-features-the-fundamentals
@@ -29,7 +29,8 @@ library(dplyr)</code></pre>
 <div id="spatial-features-from-first-principles" class="section level3">
 <h3>Spatial features from first principles</h3>
 <p>Early on my geospatial learning path I came across Barry Rowlingson’s cheat sheet for R’s <code>sp</code> and <code>raster</code> librarys. I find it really useful to build simple test examples from scratch to make sure I know what I’m doing before diving in to large data sets and being overwhelmed be multiple tricky edge cases (or worse, corner cases). Barry’s page helped with this, <a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">you can find it here</a>.</p>
-<p>I wanted to make something similar for the <code>sf</code> package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although <code>sp</code> will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of <code>sf</code> and geospatial programming in R see the free book by Lovelace et al.:<a href="https://geocompr.robinlovelace.net/">https://geocompr.robinlovelace.net/</a></p>
+<p>I wanted to make something similar for the <code>sf</code> package. sf (spatial features) will eventually be the defacto method for geospatial computing in R (although <code>sp</code> will be around for a long time and the two packages play well together with a number of methods for converting data types between the two). For excellent full coverage of <code>sf</code> and geospatial programming in R see the free book by <a href="https://geocompr.robinlovelace.net/">Lovelace et al.</a>.
+The remainder of this post walks through making very simple spatial objects using the <code>sf</code> package.</p>
 </div>
 <div id="making-a-single-point" class="section level3">
 <h3>Making a single point</h3>
