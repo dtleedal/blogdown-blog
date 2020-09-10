@@ -139,7 +139,7 @@ print(sub.set)
 ```
 
 ### Quickly convert table to sf
-A shortcut I use all the time is to convert a table of data that includes coordinates information directly into an `sf` object:
+A shortcut I use all the time when working with point-based data is to convert a table of data that includes coordinates information directly into an `sf` object:
 
 ```{r message=FALSE}
 # Make a table of data
@@ -152,7 +152,6 @@ df.sf <- st_as_sf(df, coords = c("lon", "lat"), crs=4326)
 ```
 
 ### Summary
-
 * The building block of a sf object is a sfc (simple feature column) together with an attribute table
 * The building block of a sfc is a list of simple feature items (points etc) and a CRS
 * The coordinates of simple geometry objects are placed into a vector (for a point) or matrix (for lines and polygons) and then converted to one of the geometry types using the appropriate `st_*` functions
